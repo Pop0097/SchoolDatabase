@@ -5,9 +5,9 @@
 #include "Classes.h"
 
 Person::Person(){
-    firstName = "";
-    lastName = "";
-    address = "";
+    firstName = "Default First Name";
+    lastName = "Default Last Name";
+    address = "Default Address";
 }
 
 Person::Person(string first, string last){
@@ -46,10 +46,10 @@ void Person::setAddress(string a){
     address = a;
 }
 
-string Person::toString() const{
+string Person::toString() const {
     return "";
 }
 
-bool Person::isValidId(string n) const{
+bool Person::isValidId(string n) const {
     return false;
 }

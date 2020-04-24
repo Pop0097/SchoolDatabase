@@ -3,14 +3,14 @@
 //
 
 #include <iostream>
-#include <string>
+#include <string.h>
 
 using namespace std;
 
 #ifndef PERSON_H
 #define PERSON_H
 
-class Person //this is the base class for Student and Teacher
+class Person //this is the base class for Student and Teacher. It is an abstract base class.
 {
 protected:
     string firstName;
@@ -26,6 +26,7 @@ public:
     void setFirstName(string);
     void setLastName(string);
     void setAddress(string);
+    //pure virtual functions are declared in base class and will be overridden via function overriding in the child classes
     virtual string toString() const = 0;
     virtual bool isValidId(string) const = 0; //this method checks if the student ID or teacher ID is valid.
     /*
@@ -47,6 +48,7 @@ private:
     string studentId;
     int numLates;
     int numAbsences;
+    int studentNumber;
 public:
     Student();
     Student(string, string);
@@ -74,6 +76,7 @@ class Teacher : public Person
 private:
     string teachables; //possible courses that the teachers can teach (ex. "math and computer science)
     string employeeId;
+    int teacherNumber;
 public:
     Teacher();
     Teacher(string, string);
@@ -87,6 +90,28 @@ public:
     void markStudentAbsent(Student&);
     bool isValidId(string) const;
     string toString() const;
+};
+
+#endif
+
+#ifndef SCHOOL_H
+#define SCHOOL_H
+
+class School{
+private:
+    Person ** people;
+    int teachers;
+    int students;
+    int totalPeople;
+public:
+    School(int, int);
+    void displayPeople(int); //gives a list of all available teachers
+    void editPerson(int, int);
+    string displayPerson(int);
+
+
+
+    string toString();
 };
 
 #endif

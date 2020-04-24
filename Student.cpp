@@ -6,14 +6,14 @@
 
 Student::Student() : Person::Person(){
     grade = 0;
-    studentId = "";
+    studentId = "Default Student ID";
     numLates = 0;
     numAbsences = 0;
 }
 
 Student::Student(string first, string last) : Person::Person(first, last){
     grade = 0;
-    studentId = "";
+    studentId = "Default Student ID";
     numLates = 0;
     numAbsences = 0;
 }
@@ -29,7 +29,7 @@ Student::Student(string first, string last, string add, int g, string id) : Pers
     }
     else{
         cout << "Not a valid Id, please set a new id using \"obejctName\".setStudentId(\"studentID\")" << endl;
-        studentId = "";
+        studentId = "Default Student ID";
     }
 }
 

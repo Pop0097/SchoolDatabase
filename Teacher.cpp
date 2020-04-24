@@ -5,12 +5,12 @@
 #include "Classes.h"
 
 Teacher::Teacher() : Person::Person(){
-    teachables = "";
+    teachables = "Default Teachables";
     employeeId = "";
 }
 
 Teacher::Teacher(string f, string l) : Person::Person(f, l){
-    teachables = "";
+    teachables = "Default Teachables";
     employeeId = "";
 }
 
@@ -21,18 +21,18 @@ Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Pe
         employeeId = id;
     } else {
         cout << "Not a valid Id, please set a new id using \"obejctName\".setStudentId(\"studentID\")" << endl;
-        employeeId = "";
+        employeeId = "Default Employee ID";
     }
 }
 
 Teacher::Teacher(string f, string l, string a, string id) : Person::Person(f, l, a){
-    teachables = "";
+    teachables = "Default Teachables";
     bool valid = isValidId(id); //checks if the given ID is valid
     if (valid) {
         employeeId = id;
     } else {
         cout << "Not a valid Id, please set a new id using \"obejctName\".setStudentId(\"studentID\")" << endl;
-        employeeId = "";
+        employeeId = "Default Employee ID";
     }
 }
 
