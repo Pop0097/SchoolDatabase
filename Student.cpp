@@ -19,8 +19,15 @@ Student::Student(string first, string last) : Person::Person(first, last){
 }
 
 //in next two methods, add the isValid() function to test the student id.
-Student::Student(string first, string last, string add, int g, string id) : Person::Person(first, last, add){
-    grade = g;
+Student::Student(string first, string last, string add, string g, string id) : Person::Person(first, last, add){
+    //sets value for grade
+    if(g == "1" || g == "2" || g == "3" || g == "4" || g == "5" || g == "6" || g == "7" || g == "8" || g == "9" || g == "10" || g == "11" || g == "12" ){
+        int tempGrade = stoi(g); //converts string to integer
+        grade = tempGrade;
+    }
+    else{
+        cout << "The inputted grade was not valid. The value must be a number between 1 and 12." << endl;
+    }
     numLates = 0;
     numAbsences = 0;
     bool valid = isValidId(id); //checks if the given ID is valid
@@ -33,8 +40,15 @@ Student::Student(string first, string last, string add, int g, string id) : Pers
     }
 }
 
-Student::Student(string first, string last, int g, string id) : Person::Person(first, last){
-    grade = g;
+Student::Student(string first, string last, string g, string id) : Person::Person(first, last){
+    //sets value for grade
+    if(g == "1" || g == "2" || g == "3" || g == "4" || g == "5" || g == "6" || g == "7" || g == "8" || g == "9" || g == "10" || g == "11" || g == "12" ){
+        int tempGrade = stoi(g); //converts string to integer
+        grade = tempGrade;
+    }
+    else{
+        cout << "The inputted grade was not valid. The value must be a number between 1 and 12." << endl;
+    }
     numLates = 0;
     numAbsences = 0;
     bool valid = isValidId(id); //checks if the given ID is valid
@@ -45,6 +59,10 @@ Student::Student(string first, string last, int g, string id) : Person::Person(f
         cout << "Not a valid Id, please set a new id using \"obejctName\".setStudentId(\"studentID\")" << endl;
         studentId = "";
     }
+}
+
+Student::~Student(){
+    cout << "Deleting Student " << endl;
 }
 
 int Student::getGrade(){
@@ -63,8 +81,15 @@ int Student::getNumAbsences() {
     return numAbsences;
 }
 
-void Student::setGrade(int n){
-    grade = n;
+void Student::setGrade(string n){
+    //checks if input is valid
+    if(n == "1" || n == "2" || n == "3" || n == "4" || n == "5" || n == "6" || n == "7" || n == "8" || n == "9" || n == "10" || n == "11" || n == "12" ){
+        int g = stoi(n); //converts string to integer
+        grade = g;
+    }
+    else{
+        cout << "The inputted grade was not valid. The value must be a number between 1 and 12." << endl;
+    }
 }
 
 void Student::setStudentId(string id){ //this needs the isValid method
@@ -73,7 +98,7 @@ void Student::setStudentId(string id){ //this needs the isValid method
         studentId = id;
     }
     else{
-        cout << "Not a valid ID \n" << endl;
+        cout << "Not a valid Student ID \n" << endl;
     }
 }
 
@@ -86,7 +111,6 @@ void Student::addAbsence() { //this is added via the Teacher class
 }
 
 string Student::toString() const{
-    cout << "Student:" << endl;
     cout << "Name: " <<  firstName << " " << lastName << endl;
     cout << "Address: " << address << endl;
     cout << "Grade: " << grade << endl;

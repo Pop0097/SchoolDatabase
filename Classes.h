@@ -20,6 +20,7 @@ public:
     Person();
     Person(string, string);
     Person(string, string, string);
+    virtual ~Person();
     string getFirstName();
     string getLastName();
     string getAddress();
@@ -48,17 +49,18 @@ private:
     string studentId;
     int numLates;
     int numAbsences;
-    int studentNumber;
+
 public:
     Student();
     Student(string, string);
-    Student(string, string, string, int, string);
-    Student(string, string, int, string);
+    Student(string, string, string, string, string);
+    Student(string, string, string, string);
+    virtual ~Student();
     int getGrade();
     string getStudentId();
     int getNumLates();
     int getNumAbsences();
-    void setGrade(int);
+    void setGrade(string);
     void setStudentId(string);
     void addLate();
     void addAbsence();
@@ -82,6 +84,7 @@ public:
     Teacher(string, string);
     Teacher(string, string, string, string, string);
     Teacher(string, string, string, string);
+    virtual ~Teacher();
     string getTeachables();
     string getEmployeeId();
     void setTeachables(string);
@@ -107,9 +110,9 @@ public:
     School(int, int);
     void displayPeople(int); //gives a list of all available teachers
     void editPerson(int, int);
-    string displayPerson(int);
-
-
+    string displayPerson(int, int);
+    void createPerson(int);
+    void deletePerson(int, int);
 
     string toString();
 };

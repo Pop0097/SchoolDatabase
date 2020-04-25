@@ -36,6 +36,10 @@ Teacher::Teacher(string f, string l, string a, string id) : Person::Person(f, l,
     }
 }
 
+Teacher::~Teacher(){
+    cout << "Destructing teacher" << endl;
+}
+
 string Teacher::getTeachables() {
     return teachables;
 }
@@ -54,7 +58,7 @@ void Teacher::setEmployeeId(string id) {
         employeeId = id;
     }
     else{
-        cout << "Not a valid ID \n" << endl;
+        cout << "Not a valid Employee ID \n" << endl;
     }
 }
 
@@ -67,7 +71,6 @@ void Teacher::markStudentAbsent(Student &s){//this is used to mark students as a
 }
 
 string Teacher::toString() const{
-    cout << "Teacher:" << endl;
     cout << "Name: " << firstName << " " << lastName << endl;
     cout << "Address: " << address << endl;
     cout << "Teachables: " << teachables << endl;
@@ -82,9 +85,9 @@ bool Teacher::isValidId(string n) const {
         char firstCharacter = n.at(0);
         int digit[5];
         for(int i = 0; i < 5; i++){
-            digit[i] = (int) n.at(i+1); //48 57
+            digit[i] = (int) n.at(i+1);
         }
-        if(firstCharacter == 'C' && n.length() == 6 && (48 <= digit[0] && 57 >= digit[0]) && (48 <= digit[1] && 57 >= digit[1]) && (48 <= digit[2] && 57 >= digit[2]) && (48 <= digit[3] && 57 >= digit[3]) && (48 <= digit[4] && 57 >= digit[04]) ) {
+        if(firstCharacter == 'C' && n.length() == 6 && (48 <= digit[0] && 57 >= digit[0]) && (48 <= digit[1] && 57 >= digit[1]) && (48 <= digit[2] && 57 >= digit[2]) && (48 <= digit[3] && 57 >= digit[3]) && (48 <= digit[4] && 57 >= digit[4]) ) {
             valid = true;
         }
     }

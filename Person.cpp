@@ -22,6 +22,10 @@ Person::Person(string first, string last, string add){
     address = add;
 }
 
+Person::~Person(){
+    cout << "Destructing base" << endl;
+}
+
 string Person::getFirstName(){
     return firstName;
 }
@@ -44,12 +48,4 @@ void Person::setLastName(string n){
 
 void Person::setAddress(string a){
     address = a;
-}
-
-string Person::toString() const {
-    return "";
-}
-
-bool Person::isValidId(string n) const {
-    return false;
 }
