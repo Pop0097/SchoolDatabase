@@ -11,13 +11,6 @@ Student::Student() : Person::Person(){
     numAbsences = 0;
 }
 
-Student::Student(string first, string last) : Person::Person(first, last){
-    grade = 0;
-    studentId = "Default Student ID";
-    numLates = 0;
-    numAbsences = 0;
-}
-
 //in next two methods, add the isValid() function to test the student id.
 Student::Student(string first, string last, string add, string g, string id) : Person::Person(first, last, add){
     //sets value for grade
@@ -26,6 +19,7 @@ Student::Student(string first, string last, string add, string g, string id) : P
         grade = tempGrade;
     }
     else{
+        grade = 0;
         cout << "The inputted grade was not valid. The value must be a number between 1 and 12." << endl;
     }
     numLates = 0;
@@ -40,30 +34,7 @@ Student::Student(string first, string last, string add, string g, string id) : P
     }
 }
 
-Student::Student(string first, string last, string g, string id) : Person::Person(first, last){
-    //sets value for grade
-    if(g == "1" || g == "2" || g == "3" || g == "4" || g == "5" || g == "6" || g == "7" || g == "8" || g == "9" || g == "10" || g == "11" || g == "12" ){
-        int tempGrade = stoi(g); //converts string to integer
-        grade = tempGrade;
-    }
-    else{
-        cout << "The inputted grade was not valid. The value must be a number between 1 and 12." << endl;
-    }
-    numLates = 0;
-    numAbsences = 0;
-    bool valid = isValidId(id); //checks if the given ID is valid
-    if(valid){
-        studentId = id;
-    }
-    else{
-        cout << "Not a valid Id, please set a new id using \"obejctName\".setStudentId(\"studentID\")" << endl;
-        studentId = "";
-    }
-}
-
-Student::~Student(){
-    cout << "Deleting Student " << endl;
-}
+Student::~Student(){}
 
 int Student::getGrade(){
     return grade;

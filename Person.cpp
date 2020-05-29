@@ -10,21 +10,30 @@ Person::Person(){
     address = "Default Address";
 }
 
-Person::Person(string first, string last){
-    firstName = first;
-    lastName = last;
-    address = "";
-}
-
 Person::Person(string first, string last, string add){
-    firstName = first;
-    lastName = last;
-    address = add;
+    if(first != "0"){
+        firstName = first;
+    }
+    else{
+        firstName = "Default First Name";
+    }
+
+    if(last != "0"){
+        lastName = last;
+    }
+    else{
+        lastName = "Default last Name";
+    }
+
+    if(add != "0"){
+        address = add;
+    }
+    else{
+        address = "Default Address";
+    }
 }
 
-Person::~Person(){
-    cout << "Destructing base" << endl;
-}
+Person::~Person(){}
 
 string Person::getFirstName(){
     return firstName;

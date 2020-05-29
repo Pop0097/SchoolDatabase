@@ -6,16 +6,25 @@
 
 Teacher::Teacher() : Person::Person(){
     teachables = "Default Teachables";
-    employeeId = "";
+    employeeId = "Default Employee ID";
+    t_username = "d_uname";
+    t_encrypted_password = teacherEncrypt("pass", "Slf64kf321daC");
 }
 
-Teacher::Teacher(string f, string l) : Person::Person(f, l){
+Teacher::Teacher(string u, string pass) : Person::Person(){
     teachables = "Default Teachables";
-    employeeId = "";
+    employeeId = "Default Employee ID";
+    t_username = u;
+    t_encrypted_password = teacherEncrypt(pass, "Axc4RDx3osYg");
 }
 
 Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Person(f, l, a) {
-    teachables = t;
+    if(t != "0"){
+        teachables = t;
+    }
+    else{
+        teachables = "Default Teachables";
+    }
     bool valid = isValidId(id); //checks if the given ID is valid
     if (valid) {
         employeeId = id;
@@ -23,10 +32,17 @@ Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Pe
         cout << "Not a valid Id, please set a new id using \"obejctName\".setStudentId(\"studentID\")" << endl;
         employeeId = "Default Employee ID";
     }
+    t_username = "d_uname";
+    t_encrypted_password = teacherEncrypt("pass", "Slf64kf321daC");
 }
 
-Teacher::Teacher(string f, string l, string a, string id) : Person::Person(f, l, a){
-    teachables = "Default Teachables";
+Teacher::Teacher(string f, string l, string a, string t, string id, string u, string pass) : Person::Person(f, l, a) {
+    if(t != "0"){
+        teachables = t;
+    }
+    else{
+        teachables = "Default Teachables";
+    }
     bool valid = isValidId(id); //checks if the given ID is valid
     if (valid) {
         employeeId = id;
@@ -34,11 +50,11 @@ Teacher::Teacher(string f, string l, string a, string id) : Person::Person(f, l,
         cout << "Not a valid Id, please set a new id using \"obejctName\".setStudentId(\"studentID\")" << endl;
         employeeId = "Default Employee ID";
     }
+    t_username = u;
+    t_encrypted_password = teacherEncrypt(pass, "Axc4RDx3osYg");
 }
 
-Teacher::~Teacher(){
-    cout << "Destructing teacher" << endl;
-}
+Teacher::~Teacher(){}
 
 string Teacher::getTeachables() {
     return teachables;
@@ -92,4 +108,31 @@ bool Teacher::isValidId(string n) const {
         }
     }
     return valid;
+}
+
+string Teacher::teacherEncrypt(string password, string key){
+    //ensures the key is (at a minimum) as long as the message
+    string tmp(key);
+    while(key.size() < password.size()){
+        key += tmp;
+    }
+
+    for(int i = 0; i < password.size(); ++i){
+        password[i] ^= key[i];
+    }
+    //cout << password;
+    return password;
+}
+
+string Teacher::teacherDecrypt(string entry, string key){
+    return teacherEncrypt(entry, key);
+}
+
+
+string Teacher::getUsername(){
+    return t_username;
+}
+
+string Teacher::getPassword(){
+    return t_encrypted_password;
 }

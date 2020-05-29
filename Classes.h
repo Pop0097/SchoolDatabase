@@ -7,6 +7,30 @@
 
 using namespace std;
 
+
+#ifndef ADMIN_H
+#define ADMIN_H
+
+class Admin
+{
+private:
+    string name;
+    string username;
+    string encrypted_password;
+public:
+    Admin();
+    Admin(string, string);
+    Admin(string, string, string);
+    ~Admin();
+    string adminEncrypt(string, string);
+    string adminDecrypt(string, string);
+    string getName();
+    string getUsername();
+    string getPassword();
+};
+
+#endif
+
 #ifndef PERSON_H
 #define PERSON_H
 
@@ -18,9 +42,8 @@ protected:
     string address;
 public:
     Person();
-    Person(string, string);
     Person(string, string, string);
-    virtual ~Person();
+    virtual ~Person(); //a virtual function is used for destructors so function overriding can take place. The destructors in the child classes are also virtual
     string getFirstName();
     string getLastName();
     string getAddress();
@@ -49,12 +72,9 @@ private:
     string studentId;
     int numLates;
     int numAbsences;
-
 public:
     Student();
-    Student(string, string);
-    Student(string, string, string, string, string);
-    Student(string, string, string, string);
+    Student(string, string, string, string, string); //no need for other constructors as user is forced to initialize all values
     virtual ~Student();
     int getGrade();
     string getStudentId();
@@ -79,11 +99,13 @@ private:
     string teachables; //possible courses that the teachers can teach (ex. "math and computer science)
     string employeeId;
     int teacherNumber;
+    string t_username;
+    string t_encrypted_password;
 public:
     Teacher();
     Teacher(string, string);
     Teacher(string, string, string, string, string);
-    Teacher(string, string, string, string);
+    Teacher(string, string, string, string, string, string, string);
     virtual ~Teacher();
     string getTeachables();
     string getEmployeeId();
@@ -93,6 +115,10 @@ public:
     void markStudentAbsent(Student&);
     bool isValidId(string) const;
     string toString() const;
+    string teacherEncrypt(string, string);
+    string teacherDecrypt(string, string);
+    string getUsername();
+    string getPassword();
 };
 
 #endif
@@ -103,18 +129,21 @@ public:
 class School{
 private:
     Person ** people;
+    Admin ** adminArray;
     int teachers;
     int students;
+    int administrators;
     int totalPeople;
 public:
-    School(int, int);
+    School(int, int, int);
     void displayPeople(int); //gives a list of all available teachers
     void editPerson(int, int);
     string displayPerson(int, int);
     void createPerson(int);
     void deletePerson(int, int);
-
     string toString();
+    bool adminLogin(string, string);
+    bool teacherLogin(string, string);
 };
 
 #endif
