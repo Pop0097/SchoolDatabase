@@ -5,7 +5,7 @@ void teacherSession(School&);
 
 int main() {
 
-    School sc(10, 100, 5); //initially creates a school with two teachers and two students
+    School sc(10, 50, 1); //initially creates a school with two teachers and two students
 
     bool cancel = false, loginSuccess = false, signedIn = false, programKill = false;
     string u_name = "", pass = "";
@@ -58,7 +58,6 @@ int main() {
         in = 0;
         u_name = "", pass = "";
 
-        //depending on the type of user signed in, a different session is called
         if(userType == 1){
             adminSession(sc);
         }
@@ -77,8 +76,12 @@ int main() {
 void adminSession(School &sc){
 
     bool done = false; //this variable used when the user wants to stop updating the classes
-    string confirmation = "";
-    int object, choice;
+    string confirmation = "", personName = "";
+    /*
+     * object = 1 means teacher. object = 2 means student
+     * action = 1 means view. action = 2 means edit. action = 3 means delete.
+     */
+    int object, choice, action;
 
     while(!done) { //admin session loop starts
         cout << endl;
@@ -103,47 +106,36 @@ void adminSession(School &sc){
         cout << endl;
         cout << endl;
 
+        personName = "";
 
         if (choice == 1) {
-            object = 1; //user wishes to see teachers
-            sc.displayPeople(object);
-            cout
-                    << "Choose which teacher you would like to view (enter the number beside the name or press 0 to cancel): ";
-            cin >> choice;
-            if (choice != 0) {
-                cout << endl;
-                sc.displayPerson(choice, object);
-            }
-        } else if (choice == 2) {
-            object = 2; //user wishes to see students
-            sc.displayPeople(object);
-            cout
-                    << "Choose which student you would like to view (enter the number beside the name or press 0 to cancel): ";
-            cin >> choice;
-            if (choice != 0) {
-                cout << endl;
-                sc.displayPerson(choice, object);
-            }
-        } else if (choice == 3) {
+            cout << "Which teacher would you like to view? (search for teacher by entering theirenter name)" << endl;
+            cin.ignore();
+            getline(cin, personName);
             object = 1;
-            sc.displayPeople(object);
-            cout
-                    << "Choose which teacher you would like to edit (enter the number beside the name or press 0 to cancel): ";
-            cin >> choice;
-            cout << endl;
-            if (choice != 0) {
-                sc.editPerson(choice, object);
-            }
-        } else if (choice == 4) {
+            action = 1;
+            sc.findPeople(personName, object, action);
+        } else if (choice == 2) {
+            cout << "Which student would you like to view? (search for student by entering their name)" << endl;
+            cin.ignore();
+            getline(cin, personName);
             object = 2;
-            sc.displayPeople(object);
-            cout
-                    << "Choose which student you would like to edit (enter the number beside the name or press 0 to cancel): ";
-            cin >> choice;
-            cout << endl;
-            if (choice != 0) {
-                sc.editPerson(choice, object);
-            }
+            action = 1;
+            sc.findPeople(personName, object, action);
+        } else if (choice == 3) {
+            cout << "Which teacher would you like to edit? (search for teacher by entering their name)" << endl;
+            cin.ignore();
+            getline(cin, personName);
+            object = 1;
+            action = 2;
+            sc.findPeople(personName, object, action);
+        } else if (choice == 4) {
+            cout << "Which student would you like to edit? (search for student by entering their name)" << endl;
+            cin.ignore();
+            getline(cin, personName);
+            object = 2;
+            action = 2;
+            sc.findPeople(personName, object, action);
         } else if (choice == 5) {
             cout << "Creating a teacher:" << endl;
             object = 1;
@@ -153,36 +145,19 @@ void adminSession(School &sc){
             object = 2;
             sc.createPerson(object);
         } else if (choice == 7) {
-            object = 1;
-            sc.displayPeople(object);
-            cout
-                    << "Choose which teacher you would like to delete (enter the number beside the name or press 0 to cancel): ";
-            cin >> choice;
-            if (choice != 0) {
-                cout << "Are you sure? (\"y\" or \"n\")? "
-                     << endl; //confirms that the user really wants to destroy the Teacher object
-                cin.ignore();
-                getline(cin, confirmation);
-                if (confirmation == "y") {
-                    sc.deletePerson(choice, object);
-                }
-            }
-        } else if (choice == 8) {
-            object = 2;
-            sc.displayPeople(object);
-            cout
-                    << "Choose which student you would like to delete (enter the number beside the name or press 0 to cancel): ";
+            cout << "Which teacher would you like to delete? (search for teacher by entering their name)" << endl;
             cin.ignore();
-            cin >> choice;
-            if (choice != 0) {
-                cout << "Are you sure? (\"y\" or \"n\")? "
-                     << endl; //confirms that the user really wants to destroy the Student object
-                cin.ignore();
-                getline(cin, confirmation);
-                if (confirmation == "y") {
-                    sc.deletePerson(choice, object);
-                }
-            }
+            getline(cin, personName);
+            object = 1;
+            action = 3;
+            sc.findPeople(personName, object, action);
+        } else if (choice == 8) {
+            cout << "Which student would you like to delete? (search for student by entering their name)" << endl;
+            cin.ignore();
+            getline(cin, personName);
+            object = 2;
+            action = 3;
+            sc.findPeople(personName, object, action);
         } else if(choice == 9){
 
         } else if(choice == 10){
@@ -201,8 +176,8 @@ void adminSession(School &sc){
 
 void teacherSession(School &sc){
     bool done = false; //this variable used when the user wants to stop updating the classes
-    string confirmation = "";
-    int object, choice;
+    string confirmation = "", personName = "";
+    int object, choice, action;
 
     while(!done){ //teacher session loop starts
         cout << endl;
@@ -216,16 +191,15 @@ void teacherSession(School &sc){
         cout << endl;
         cout << endl;
 
+        personName = "";
+
         if (choice == 1) {
-            object = 2; //user wishes to see students
-            sc.displayPeople(object);
-            cout
-                    << "Choose which student you would like to view (enter the number beside the name or press 0 to cancel): ";
-            cin >> choice;
-            if (choice != 0) {
-                cout << endl;
-                sc.displayPerson(choice, object);
-            }
+            cout << "Which student would you like to view? (search for student by entering theirenter name)" << endl;
+            cin.ignore();
+            getline(cin, personName);
+            object = 2;
+            action = 1;
+            sc.findPeople(personName, object, action);
         } else if(choice == 2){
 
         } else if(choice == 3){

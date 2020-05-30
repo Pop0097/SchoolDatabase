@@ -136,7 +136,7 @@ private:
     int totalPeople;
 public:
     School(int, int, int);
-    void displayPeople(int); //gives a list of all available teachers
+    void findPeople(string, int, int);
     void editPerson(int, int);
     string displayPerson(int, int);
     void createPerson(int);

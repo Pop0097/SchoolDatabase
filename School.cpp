@@ -24,28 +24,79 @@ School::School(int t, int s, int a){
     }
 }
 
-void School::displayPeople(int object) {
-    if(object == 1){
-        if(teachers == 0){//checks if there are teachers present in the array
-            cout << "There are no teachers in the system" << endl;
-        }
-        else{
-            for (int i = 0; i < teachers; i++) {
-                cout << i + 1 << ": " << people[i]->getFirstName() << " " << people[i]->getLastName() << endl;
+void School::findPeople(string n, int object, int action){ //function searches whole people array and only gives results that have the user's input within
+    int searchType = 0;
+    string fName = "", lName = "";
+    int found = n.find(" ");
+    //cout << "Found: " << found << endl;
+    if(found != -1){ //in case the user put in both the first and last name
+        searchType = 1;
+        fName = n.substr(0, found);
+        lName = n.substr(found+1);
+        //cout << "Names:" << fName << " " << lName << endl;
+    }
+    int counter = 1;
+    bool anyFound = false;
+    if(object == 1){ //searching for teachers
+        for(int i = 0; i < teachers; i++){
+            if(searchType == 0){
+                int found1 = people[i]->getFirstName().find(n);
+                int found2 = people[i]->getLastName().find(n);
+                //cout << "Found1: " << found1 << " " << "Found2: " << found2 << endl;
+                if(found1 != -1 || found2 != -1){
+                    cout << counter << ". " << people[i]->getFirstName() << " " << people[i]->getLastName() << " (enter \""  << (i+1) << "\")" << endl;
+                    anyFound = true;
+                    counter++;
+                }
+            } else{
+                int found1 = people[i]->getFirstName().find(fName);
+                int found2 = people[i]->getLastName().find(lName);
+                //cout << "Found1: " << found1 << " " << "Found2: " << found2 << endl;
+                if(found1 != -1 || found2 != -1){
+                    cout << counter << ". " << people[i]->getFirstName() << " " << people[i]->getLastName() << " (enter \""  << (i+1) << "\")" << endl;
+                    anyFound = true;
+                    counter++;
+                }
             }
         }
     }
-    else{
-        if(students == 0){ //checks if there are students present in the array
-            cout << "There are no students in the system" << endl;
-        }
-        else{
-            int counter = 1;
-            for(int i = teachers; i < totalPeople; i++){
-                cout << counter << ": " << people[i]->getFirstName() << " " << people[i]->getLastName() << endl;
-                counter++;
+    else { //searching for students
+        for(int i = teachers-1; i < totalPeople; i++){
+            if(searchType == 0){
+                int found1 = people[i]->getFirstName().find(n);
+                int found2 = people[i]->getLastName().find(n);
+                //cout << "Found1: " << found1 << " " << "Found2: " << found2 << endl;
+                if(found1 != -1 || found2 != -1){
+                    cout << counter << ". " << people[i]->getFirstName() << " " << people[i]->getLastName() << " (enter \""  << (i-teachers+1) << "\")" << endl;
+                    anyFound = true;
+                    counter++;
+                }
+            } else{
+                int found1 = people[i]->getFirstName().find(fName);
+                int found2 = people[i]->getLastName().find(lName);
+                //cout << "Found1: " << found1 << " " << "Found2: " << found2 << endl;
+                if(found1 != -1 || found2 != -1){
+                    cout << counter << ". " << people[i]->getFirstName() << " " << people[i]->getLastName() << " (enter \""  << (i-teachers+1) << "\")" << endl;
+                    anyFound = true;
+                    counter++;
+                }
             }
         }
+    }
+    if(anyFound) {
+        int decision = 0;
+        cout << "Please select one of the above (or enter \"0\" to cancel)" << endl;
+        cin >> decision;
+        if(decision != 0 && action == 1){ //view
+            this->displayPerson(decision, object);
+        } else if (decision != 0 && action == 2){ //edit
+            this->editPerson(decision, object);
+        } else if (decision != 0 && action == 3) { //delete
+            this->deletePerson(decision, object);
+        }
+    } else {
+        cout << "No entries matched your search." << endl;
+        cout  << endl;
     }
 }
 
@@ -211,38 +262,45 @@ void School::createPerson(int object) {
 }
 
 void School::deletePerson(int personNumber, int object) {
-    totalPeople--;
-    Person ** temporaryArray = people; //creates a temporary array to store the previous "people" array
+    string confirmation = "";
+    cout << "Are you sure? (enter \"y\" or \"n\")" << endl;
+    cin.ignore();
+    getline(cin, confirmation);
+    if(confirmation == "y"){
+        totalPeople--;
+        Person ** temporaryArray = people; //creates a temporary array to store the previous "people" array
 
-    if(object == 1){
-        personNumber--; //increments the value down by one so it can be used to navigate the "people" array
-        teachers--;
-        people = new Person *[totalPeople];
-        for(int i = 0; i < totalPeople; i++){
-            if(i < personNumber){
-                people[i] = temporaryArray[i];
+
+        if(object == 1){
+            personNumber--; //increments the value down by one so it can be used to navigate the "people" array
+            teachers--;
+            people = new Person *[totalPeople];
+            for(int i = 0; i < totalPeople; i++){
+                if(i < personNumber){
+                    people[i] = temporaryArray[i];
+                }
+                else{
+                    people[i] = temporaryArray[i+1];
+                }
             }
-            else{
-                people[i] = temporaryArray[i+1];
-            }
+            cout << "Teacher deleted" << endl;
         }
-        cout << "Teacher deleted" << endl;
-    }
-    else{
-        personNumber = teachers + personNumber - 1;
-        students--;
-        people = new Person *[totalPeople];
-        for(int i = 0; i < totalPeople; i++){
-            if(i < personNumber){
-                people[i] = temporaryArray[i];
+        else{
+            personNumber = teachers + personNumber - 1;
+            students--;
+            people = new Person *[totalPeople];
+            for(int i = 0; i < totalPeople; i++){
+                if(i < personNumber){
+                    people[i] = temporaryArray[i];
+                }
+                else{
+                    people[i] = temporaryArray[i+1];
+                }
             }
-            else{
-                people[i] = temporaryArray[i+1];
-            }
+            cout << "Student deleted" << endl;
         }
-        cout << "Student deleted" << endl;
+        delete[] temporaryArray;
     }
-    delete[] temporaryArray;
 }
 
 string School::toString(){
