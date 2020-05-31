@@ -28,6 +28,7 @@ Admin::~Admin(){
 
 string Admin::adminEncrypt(string password, string key){
     //ensures the key is (at a minimum) as long as the message
+    //cout << "called" << endl;
     string tmp(key);
     while(key.size() < password.size()){
         key += tmp;
@@ -54,4 +55,24 @@ string Admin::getUsername(){
 
 string Admin::getPassword(){
     return encrypted_password;
+}
+
+string Admin::toString(){
+    cout << "Administrator account information:" << endl;
+    cout << "Name: " <<  name << endl;
+    cout << "Username: " << username << endl;
+    cout << endl;
+    return "";
+}
+
+void Admin::setName(string n){
+    name = n;
+}
+
+void Admin::setUsername(string u){
+    username = u;
+}
+
+void Admin::setPassword(string pass){
+    encrypted_password = adminEncrypt(pass, "Axc4RDx3osYg");
 }

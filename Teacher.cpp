@@ -15,7 +15,7 @@ Teacher::Teacher(string u, string pass) : Person::Person(){
     teachables = "Default Teachables";
     employeeId = "Default Employee ID";
     t_username = u;
-    t_encrypted_password = teacherEncrypt(pass, "Axc4RDx3osYg");
+    t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
 }
 
 Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Person(f, l, a) {
@@ -51,10 +51,12 @@ Teacher::Teacher(string f, string l, string a, string t, string id, string u, st
         employeeId = "Default Employee ID";
     }
     t_username = u;
-    t_encrypted_password = teacherEncrypt(pass, "Axc4RDx3osYg");
+    t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
 }
 
-Teacher::~Teacher(){}
+Teacher::~Teacher(){
+    cout << "deleted" << endl;
+}
 
 string Teacher::getTeachables() {
     return teachables;
@@ -135,4 +137,12 @@ string Teacher::getUsername(){
 
 string Teacher::getPassword(){
     return t_encrypted_password;
+}
+
+void Teacher::setUsername(string uname){
+    t_username = uname;
+}
+
+void Teacher::setPassword(string pass){
+    t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
 }

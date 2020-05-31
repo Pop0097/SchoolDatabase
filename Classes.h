@@ -27,6 +27,10 @@ public:
     string getName();
     string getUsername();
     string getPassword();
+    string toString();
+    void setName(string);
+    void setUsername(string);
+    void setPassword(string);
 };
 
 #endif
@@ -119,6 +123,8 @@ public:
     string teacherDecrypt(string, string);
     string getUsername();
     string getPassword();
+    void setUsername(string);
+    void setPassword(string);
 };
 
 #endif
@@ -136,14 +142,16 @@ private:
     int totalPeople;
 public:
     School(int, int, int);
-    void findPeople(string, int, int);
+    int findPeople(string, int, int, int);
     void editPerson(int, int);
-    string displayPerson(int, int);
+    void displayPerson(int, int);
     void createPerson(int);
-    void deletePerson(int, int);
+    int deletePerson(int, int, int);
+
+
     string toString();
-    bool adminLogin(string, string);
-    bool teacherLogin(string, string);
+    int adminLogin(string, string);
+    int teacherLogin(string, string);
 };
 
 #endif

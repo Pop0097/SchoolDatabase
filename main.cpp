@@ -1,7 +1,7 @@
 #include "Classes.h"
 
-void adminSession(School&);
-void teacherSession(School&);
+void adminSession(School&, int);
+void teacherSession(School&, int);
 
 int main() {
 
@@ -9,9 +9,10 @@ int main() {
 
     bool cancel = false, loginSuccess = false, signedIn = false, programKill = false;
     string u_name = "", pass = "";
-    int in = 0, userType = 0;
+    int in = 0, userNumber = 0;
 
     while(!programKill) { //master program loop starts
+        userNumber = -1;
 
         while (!signedIn && !programKill) { //signing in loop starts
             cout << "Sign in: Are you an administrator (1) or a teacher (2): (type \"0\" to kill the program)" << endl;
@@ -22,7 +23,7 @@ int main() {
             if (in == 1 || in == 2) {
                 cin.ignore();
 
-                while (!loginSuccess && !cancel) { //credential input loop starts
+                while (userNumber < 0 && !cancel) { //credential input loop starts
                     u_name = "", pass = "";
                     cout << "Enter your credentials. (Type 0 in both fields to cancel):" << endl;
                     cout << "Username: ";
@@ -36,44 +37,44 @@ int main() {
                     } else {
                         //statements check the credentials depending on the chosen user type
                         if(in == 1){
-                            loginSuccess = sc.adminLogin(u_name, pass);
-                            if (loginSuccess) {
+                            userNumber = sc.adminLogin(u_name, pass);
+                            if (userNumber != -1) {
                                 signedIn = true; //variable changed so the signing in loop ends
-                                userType = 1;
                             }
                         }
-                        else{
-                            loginSuccess = sc.teacherLogin(u_name, pass);
-                            if (loginSuccess) {
+                        else {
+                            //cout << "here" << endl;
+                            userNumber = sc.teacherLogin(u_name, pass);
+                            if (userNumber != -1) {
+                                //cout << "here1" << endl;
                                 signedIn = true;
-                                userType = 2;
                             }
                         }
                     }
                 } //credential input loop ends
             }
-            cancel = false, loginSuccess = false;
+            cancel = false;
         } //signing in loop ends
+
+        if(in == 1){
+            adminSession(sc, userNumber);
+        }
+        else if (in == 2){
+            //cout << "here2" << endl;
+            teacherSession(sc, userNumber);
+        }
 
         in = 0;
         u_name = "", pass = "";
-
-        if(userType == 1){
-            adminSession(sc);
-        }
-        else if (userType == 2){
-            teacherSession(sc);
-        }
-
         signedIn = false;
-        userType = 0;
     } //master program loop ends
+
 
     cout << "Thank you for using this database" << endl;
     return 0;
 }
 
-void adminSession(School &sc){
+void adminSession(School &sc, int userNumber){
 
     bool done = false; //this variable used when the user wants to stop updating the classes
     string confirmation = "", personName = "";
@@ -114,28 +115,28 @@ void adminSession(School &sc){
             getline(cin, personName);
             object = 1;
             action = 1;
-            sc.findPeople(personName, object, action);
+            userNumber = sc.findPeople(personName, object, action, userNumber);
         } else if (choice == 2) {
             cout << "Which student would you like to view? (search for student by entering their name)" << endl;
             cin.ignore();
             getline(cin, personName);
             object = 2;
             action = 1;
-            sc.findPeople(personName, object, action);
+            userNumber = sc.findPeople(personName, object, action, userNumber);
         } else if (choice == 3) {
             cout << "Which teacher would you like to edit? (search for teacher by entering their name)" << endl;
             cin.ignore();
             getline(cin, personName);
             object = 1;
             action = 2;
-            sc.findPeople(personName, object, action);
+            userNumber = sc.findPeople(personName, object, action, userNumber);
         } else if (choice == 4) {
             cout << "Which student would you like to edit? (search for student by entering their name)" << endl;
             cin.ignore();
             getline(cin, personName);
             object = 2;
             action = 2;
-            sc.findPeople(personName, object, action);
+            userNumber = sc.findPeople(personName, object, action, userNumber);
         } else if (choice == 5) {
             cout << "Creating a teacher:" << endl;
             object = 1;
@@ -150,31 +151,42 @@ void adminSession(School &sc){
             getline(cin, personName);
             object = 1;
             action = 3;
-            sc.findPeople(personName, object, action);
+            userNumber = sc.findPeople(personName, object, action, userNumber);
         } else if (choice == 8) {
             cout << "Which student would you like to delete? (search for student by entering their name)" << endl;
             cin.ignore();
             getline(cin, personName);
             object = 2;
             action = 3;
-            sc.findPeople(personName, object, action);
-        } else if(choice == 9){
+            userNumber = sc.findPeople(personName, object, action, userNumber);
+        } else if(choice == 9){ //create class
 
-        } else if(choice == 10){
+        } else if(choice == 10){ //edit class
 
         } else if(choice == 11){
-
-        } else if(choice == 12){
-
-        } else if(choice == 13){
-
+            cout << "Creating a administrator:" << endl;
+            object = 3;
+            sc.createPerson(object);
+        } else if(choice == 12){ //delete admin
+            cout << "Which administrator would you like to edit? (search for teacher by entering their name)" << endl;
+            cin.ignore();
+            getline(cin, personName);
+            object = 3;
+            action = 3;
+            sc.findPeople(personName, object, action, userNumber);
+        } else if(choice == 13){ //view account
+            object = 3;
+            sc.displayPerson(userNumber, object);
+        } else if (choice == 14){ //edit account
+            object = 3;
+            sc.editPerson(userNumber, object);
         } else {
             done = true;
         }
     } //admin session loop ends
 }
 
-void teacherSession(School &sc){
+void teacherSession(School &sc, int userNumber){
     bool done = false; //this variable used when the user wants to stop updating the classes
     string confirmation = "", personName = "";
     int object, choice, action;
@@ -183,8 +195,9 @@ void teacherSession(School &sc){
         cout << endl;
         cout << "Select an action:" << endl;
         cout << "1. View a student's information (Type \"1\")" << endl; //Instead, make the admin enter the person's name. The program will search for the person and then output the desired one. (reduces need to list so many!!!)
-        cout << "2. View your account information (Type \"2\")" << endl;
-        cout << "3. Edit your account information (Type \"3\")" << endl;
+        cout << "2. View your class' information (Type \"2\")" << endl;
+        cout << "3. View your account information (Type \"3\")" << endl;
+        cout << "4. Edit your account information (Type \"4\")" << endl;
         cout << endl;
         cout << "Log out (Type \"100\")" << endl;
         cin >> choice;
@@ -199,11 +212,15 @@ void teacherSession(School &sc){
             getline(cin, personName);
             object = 2;
             action = 1;
-            sc.findPeople(personName, object, action);
+            userNumber = sc.findPeople(personName, object, action, userNumber);
         } else if(choice == 2){
-
+            //add code later
         } else if(choice == 3){
-
+            object = 1;
+            sc.displayPerson(userNumber, object);
+        } else if(choice == 4){
+            object = 1;
+            sc.editPerson(userNumber, object);
         } else {
             done = true;
         }
