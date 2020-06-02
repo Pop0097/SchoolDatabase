@@ -5,7 +5,7 @@ void teacherSession(School&, int);
 
 int main() {
 
-    School sc(10, 50, 1); //initially creates a school with two teachers and two students
+    School sc(10, 50, 1, 3); //initially creates a school with two teachers and two students
 
     bool cancel = false, loginSuccess = false, signedIn = false, programKill = false;
     string u_name = "", pass = "";
@@ -195,6 +195,11 @@ void teacherSession(School &sc, int userNumber){
         cout << endl;
         cout << "Select an action:" << endl;
         cout << "1. View a student's information (Type \"1\")" << endl; //Instead, make the admin enter the person's name. The program will search for the person and then output the desired one. (reduces need to list so many!!!)
+        /*
+         *
+         * note for me: add a choice in #2 where the teacher can choose to mark a student as late or absent
+         *
+        */
         cout << "2. View your class' information (Type \"2\")" << endl;
         cout << "3. View your account information (Type \"3\")" << endl;
         cout << "4. Edit your account information (Type \"4\")" << endl;

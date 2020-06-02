@@ -69,6 +69,8 @@ public:
 #ifndef STUDENT_H
 #define STUDENT_H
 
+class Course; //define Course class before Student and Person so the two classes can have an array of Courses
+
 class Student : public Person
 {
 private:
@@ -76,6 +78,7 @@ private:
     string studentId;
     int numLates;
     int numAbsences;
+    Course ** courses;
 public:
     Student();
     Student(string, string, string, string, string); //no need for other constructors as user is forced to initialize all values
@@ -105,6 +108,7 @@ private:
     int teacherNumber;
     string t_username;
     string t_encrypted_password;
+    Course ** courses;
 public:
     Teacher();
     Teacher(string, string);
@@ -129,6 +133,30 @@ public:
 
 #endif
 
+
+#ifndef COURSE_H
+#define COURSE_H
+
+class Course{
+private:
+    Student ** students;
+    Teacher * instructor;
+    int courseBlock; //1 = 1A; 2 = 1B; 3 = 1C; 4 = 1D; 5 = 2A; 6 = 2B; 7= 2C; 8 = 2D
+    string subject;
+    string courseCode;
+    int roomNumber;
+    int studentNumber;
+public:
+    Course();
+    Course(int, string, string, int);
+    Course(int, int, string, string, int);
+
+    string toString();
+};
+
+#endif
+
+
 #ifndef SCHOOL_H
 #define SCHOOL_H
 
@@ -136,22 +164,27 @@ class School{
 private:
     Person ** people;
     Admin ** adminArray;
+    Course ** classes;
+    int classNumber;
     int teachers;
     int students;
     int administrators;
     int totalPeople;
 public:
-    School(int, int, int);
+    School(int, int, int, int);
+    //functions for signin
+    int adminLogin(string, string);
+    int teacherLogin(string, string);
+    //CRUD functions for people
     int findPeople(string, int, int, int);
     void editPerson(int, int);
     void displayPerson(int, int);
     void createPerson(int);
     int deletePerson(int, int, int);
-
+    //functions for courses
 
     string toString();
-    int adminLogin(string, string);
-    int teacherLogin(string, string);
+
 };
 
 #endif

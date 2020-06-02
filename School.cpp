@@ -4,7 +4,7 @@
 
 #import "Classes.h"
 
-School::School(int t, int s, int a){
+School::School(int t, int s, int a, int c){
     teachers = t;
     students = s;
     totalPeople = t+s;
@@ -21,6 +21,85 @@ School::School(int t, int s, int a){
     adminArray = new Admin*[a];
     for(int i = 0; i < a; i++){
         adminArray[i] = new Admin();
+    }
+    classNumber = c;
+    classes = new Course*[classNumber];
+    for(int i = 0; i < classNumber; i++){
+        classes[i] = new Course();
+    }
+}
+
+int School::adminLogin(string uname, string password){
+    bool valid = false;
+    int userNumber = 0;
+    Admin * tempAdmin = new Admin(uname, password);
+    string encrypt_pass = tempAdmin->getPassword();
+    //cout << "yee: " << encrypt_pass << endl;
+    delete tempAdmin;
+    // cout << "here1" << endl;
+
+    Admin ** temporaryArray = adminArray;
+    string tempName = "";
+    for(int i = 0; i < administrators; i++){
+        //cout << "AAA: " << temporaryArray[i]->getPassword() << endl;
+        if(temporaryArray[i]->getUsername() == uname && temporaryArray[i]->getPassword() == encrypt_pass){
+            //cout << temporaryArray[i]->getUsername() << " " << temporaryArray[i]->getPassword() << " ; " << encrypt_pass << endl;
+            tempName = temporaryArray[i]->getName();
+            userNumber = i+1;
+            valid = true;
+        }
+    }
+
+    // cout << "here2" << endl;
+
+    if(valid){
+        cout << endl;
+        cout << endl;
+        cout << endl;
+        cout << "You're logged in. Welcome!" << endl;
+        cout << endl;
+        cout << endl;
+        return userNumber;
+    }
+    else{
+        cout << "Credentials are incorrect. Please try again" << endl;
+        cout << endl;
+        return -1;
+    }
+}
+
+int School::teacherLogin(string uname, string password){
+    bool valid = false;
+    int userNumber = 0;
+    Teacher * tempTeach = new Teacher(uname, password);
+    string encrypt_pass = tempTeach->getPassword();
+    //cout << "yee: " << encrypt_pass << endl;
+    delete tempTeach;
+
+    for(int i = 0; i < teachers; i++){
+        Teacher * tempTeach = dynamic_cast<Teacher*>(people[i]);
+        //cout << "AAA: " << tempTeach->getPassword() << endl;
+
+        if(tempTeach->getUsername() == uname && tempTeach->getPassword() == encrypt_pass) {
+            //cout << tempTeach->getUsername() << " " << tempTeach->getPassword() << " ; " << encrypt_pass << endl;
+            valid = true;
+            userNumber = i+1;
+        }
+    }
+
+    if(valid){
+        cout << endl;
+        cout << endl;
+        cout << endl;
+        cout << "You're logged in. Welcome!" << endl;
+        cout << endl;
+        cout << endl;
+        return userNumber;
+    }
+    else{
+        cout << "Credentials are incorrect. Please try again" << endl;
+        cout << endl;
+        return -1;
     }
 }
 
@@ -423,6 +502,17 @@ int School::deletePerson(int personNumber, int object, int userNumber) {
     return userNumber;
 }
 
+
+
+
+
+
+
+
+
+
+
+
 string School::toString(){
     int counter = 0; //this makes sure the elements for schoolStudents[] starts at zero
     for(int i = 0; i < totalPeople; i++){
@@ -430,78 +520,4 @@ string School::toString(){
         cout << endl;
     }
     return "";
-}
-
-int School::adminLogin(string uname, string password){
-    bool valid = false;
-    int userNumber = 0;
-    Admin * tempAdmin = new Admin(uname, password);
-    string encrypt_pass = tempAdmin->getPassword();
-    //cout << "yee: " << encrypt_pass << endl;
-    delete tempAdmin;
-   // cout << "here1" << endl;
-
-    Admin ** temporaryArray = adminArray;
-    string tempName = "";
-    for(int i = 0; i < administrators; i++){
-        //cout << "AAA: " << temporaryArray[i]->getPassword() << endl;
-        if(temporaryArray[i]->getUsername() == uname && temporaryArray[i]->getPassword() == encrypt_pass){
-            //cout << temporaryArray[i]->getUsername() << " " << temporaryArray[i]->getPassword() << " ; " << encrypt_pass << endl;
-            tempName = temporaryArray[i]->getName();
-            userNumber = i+1;
-            valid = true;
-        }
-    }
-
-   // cout << "here2" << endl;
-
-    if(valid){
-        cout << endl;
-        cout << endl;
-        cout << endl;
-        cout << "You're logged in. Welcome!" << endl;
-        cout << endl;
-        cout << endl;
-        return userNumber;
-    }
-    else{
-        cout << "Credentials are incorrect. Please try again" << endl;
-        cout << endl;
-        return -1;
-    }
-}
-
-int School::teacherLogin(string uname, string password){
-    bool valid = false;
-    int userNumber = 0;
-    Teacher * tempTeach = new Teacher(uname, password);
-    string encrypt_pass = tempTeach->getPassword();
-    //cout << "yee: " << encrypt_pass << endl;
-    delete tempTeach;
-
-    for(int i = 0; i < teachers; i++){
-        Teacher * tempTeach = dynamic_cast<Teacher*>(people[i]);
-        //cout << "AAA: " << tempTeach->getPassword() << endl;
-
-        if(tempTeach->getUsername() == uname && tempTeach->getPassword() == encrypt_pass) {
-            //cout << tempTeach->getUsername() << " " << tempTeach->getPassword() << " ; " << encrypt_pass << endl;
-            valid = true;
-            userNumber = i+1;
-        }
-    }
-
-    if(valid){
-        cout << endl;
-        cout << endl;
-        cout << endl;
-        cout << "You're logged in. Welcome!" << endl;
-        cout << endl;
-        cout << endl;
-        return userNumber;
-    }
-    else{
-        cout << "Credentials are incorrect. Please try again" << endl;
-        cout << endl;
-        return -1;
-    }
 }
