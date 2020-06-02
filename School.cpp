@@ -29,6 +29,8 @@ School::School(int t, int s, int a, int c){
     }
 }
 
+/* Methods for signing in */
+
 int School::adminLogin(string uname, string password){
     bool valid = false;
     int userNumber = 0;
@@ -102,6 +104,8 @@ int School::teacherLogin(string uname, string password){
         return -1;
     }
 }
+
+/* Methods for CRUD operations for people */
 
 int School::findPeople(string n, int object, int action, int userNumber){ //function searches whole people array and only gives results that have the user's input within
     int searchType = 0;
@@ -502,11 +506,33 @@ int School::deletePerson(int personNumber, int object, int userNumber) {
     return userNumber;
 }
 
+/* Methods for courses (CRUD operations) */
 
-
-
-
-
+void School::findCourse(string in, int action){ //find courses based on the course code
+    int counter = 1;
+    int found = 0;
+    bool anyFound = false;
+    for(int i = 0; i < classNumber; i++){
+        found = classes[i]->getCourseCode().find(in);
+        if(found != -1){
+            anyFound = true;
+            cout << counter << ". " << classes[i]->getCourseSubject() << " (Code: " << classes[i]->getCourseCode() << "); Block: " << classes[i]->getCourseBlock() << "; Room #: " << classes[i]->getRoomNumber() << "; Teacher: " << classes[i]->getCourseTeacher() << endl;
+            counter++;
+        }
+    }
+    if(anyFound) {
+        int decision = 0;
+        cout << "Please select one of the above (or enter \"0\" to cancel)" << endl;
+        cin >> decision;
+        if(decision != 0 && action == 1){ //view
+        } else if (decision != 0 && action == 2){ //edit
+        } else if (decision != 0 && action == 3) { //delete
+        }
+    } else {
+        cout << "No entries matched your search." << endl;
+        cout  << endl;
+    }
+}
 
 
 

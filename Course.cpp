@@ -12,8 +12,8 @@ Course::Course(){ //makes a course with ten students and one teacher
     }
     instructor = new Teacher();
     courseBlock = 0;
-    subject = "";
-    courseCode = "";
+    subject = "Default";
+    courseCode = "Default";
     roomNumber = 0;
 }
 
@@ -41,6 +41,27 @@ Course::Course(int studentsNumber, int block, string sub, string code, int room)
     subject = sub;
     courseCode = code;
     roomNumber = room;
+}
+
+string Course::getCourseSubject(){
+    return subject;
+}
+
+string Course::getCourseCode(){
+    return courseCode;
+}
+
+int Course::getCourseBlock(){
+    return courseBlock;
+}
+
+string Course::getCourseTeacher(){
+    cout << instructor->getFirstName() << " " << instructor->getLastName();
+    return "";
+}
+
+int Course::getRoomNumber(){
+    return roomNumber;
 }
 
 

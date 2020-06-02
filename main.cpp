@@ -77,7 +77,7 @@ int main() {
 void adminSession(School &sc, int userNumber){
 
     bool done = false; //this variable used when the user wants to stop updating the classes
-    string confirmation = "", personName = "";
+    string confirmation = "", input = "";
     /*
      * object = 1 means teacher. object = 2 means student
      * action = 1 means view. action = 2 means edit. action = 3 means delete.
@@ -87,6 +87,7 @@ void adminSession(School &sc, int userNumber){
     while(!done) { //admin session loop starts
         cout << endl;
         cout << "Select an action:" << endl;
+        cout << "Actions for people:" << endl;
         cout << "1. View a teacher's information (Type \"1\")" << endl;
         cout << "2. View a student's information (Type \"2\")" << endl; //Instead, make the admin enter the person's name. The program will search for the person and then output the desired one. (reduces need to list so many!!!)
         cout << "3. Edit a teacher's information (Type \"3\")" << endl;
@@ -95,48 +96,52 @@ void adminSession(School &sc, int userNumber){
         cout << "6. Create a student (Type \"6\")" << endl;
         cout << "7. Delete a teacher (Type \"7\")" << endl;
         cout << "8. Delete a student (Type \"8\")" << endl;
-        cout << "9. Create a class (Type \"9\")" << endl;
-        cout << "10. Edit a class (Type \"10\")" << endl;
-        cout << "11. Create an administrator (Type \"11\")" << endl;
-        cout << "12. Delete an administrator (Type \"12\")" << endl;
-        cout << "13. View your account information (Type \"13\")" << endl;
-        cout << "14. Edit your account information (Type \"14\")" << endl;
+        cout << "9. Create an administrator (Type \"9\")" << endl;
+        cout << "10. Delete an administrator (Type \"10\")" << endl;
+        cout << "Actions for your account: " << endl;
+        cout << "11. View your account information (Type \"11\")" << endl;
+        cout << "12. Edit your account information (Type \"12\")" << endl;
+        cout << "Actions for courses:" << endl;
+        cout << "13. View a course's information (Type \"13\")" << endl;
+        cout << "14. Edit a course's information (Type \"14\")" << endl;
+        cout << "15. Create a course (Type \"15\")" << endl;
+        cout << "16. Delete a course (Type \"16\")" << endl;
         cout << endl;
         cout << "Log out (Type \"100\")" << endl;
         cin >> choice;
         cout << endl;
         cout << endl;
 
-        personName = "";
+        input = "";
 
         if (choice == 1) {
             cout << "Which teacher would you like to view? (search for teacher by entering theirenter name)" << endl;
             cin.ignore();
-            getline(cin, personName);
+            getline(cin, input);
             object = 1;
             action = 1;
-            userNumber = sc.findPeople(personName, object, action, userNumber);
+            userNumber = sc.findPeople(input, object, action, userNumber);
         } else if (choice == 2) {
             cout << "Which student would you like to view? (search for student by entering their name)" << endl;
             cin.ignore();
-            getline(cin, personName);
+            getline(cin, input);
             object = 2;
             action = 1;
-            userNumber = sc.findPeople(personName, object, action, userNumber);
+            userNumber = sc.findPeople(input, object, action, userNumber);
         } else if (choice == 3) {
             cout << "Which teacher would you like to edit? (search for teacher by entering their name)" << endl;
             cin.ignore();
-            getline(cin, personName);
+            getline(cin, input);
             object = 1;
             action = 2;
-            userNumber = sc.findPeople(personName, object, action, userNumber);
+            userNumber = sc.findPeople(input, object, action, userNumber);
         } else if (choice == 4) {
             cout << "Which student would you like to edit? (search for student by entering their name)" << endl;
             cin.ignore();
-            getline(cin, personName);
+            getline(cin, input);
             object = 2;
             action = 2;
-            userNumber = sc.findPeople(personName, object, action, userNumber);
+            userNumber = sc.findPeople(input, object, action, userNumber);
         } else if (choice == 5) {
             cout << "Creating a teacher:" << endl;
             object = 1;
@@ -148,39 +153,43 @@ void adminSession(School &sc, int userNumber){
         } else if (choice == 7) {
             cout << "Which teacher would you like to delete? (search for teacher by entering their name)" << endl;
             cin.ignore();
-            getline(cin, personName);
+            getline(cin, input);
             object = 1;
             action = 3;
-            userNumber = sc.findPeople(personName, object, action, userNumber);
+            userNumber = sc.findPeople(input, object, action, userNumber);
         } else if (choice == 8) {
             cout << "Which student would you like to delete? (search for student by entering their name)" << endl;
             cin.ignore();
-            getline(cin, personName);
+            getline(cin, input);
             object = 2;
             action = 3;
-            userNumber = sc.findPeople(personName, object, action, userNumber);
-        } else if(choice == 9){ //create class
-
-        } else if(choice == 10){ //edit class
-
-        } else if(choice == 11){
+            userNumber = sc.findPeople(input, object, action, userNumber);
+        } else if(choice == 9){
             cout << "Creating a administrator:" << endl;
             object = 3;
             sc.createPerson(object);
-        } else if(choice == 12){ //delete admin
+        } else if(choice == 10){ //delete admin
             cout << "Which administrator would you like to edit? (search for teacher by entering their name)" << endl;
             cin.ignore();
-            getline(cin, personName);
+            getline(cin, input);
             object = 3;
             action = 3;
-            sc.findPeople(personName, object, action, userNumber);
-        } else if(choice == 13){ //view account
+            sc.findPeople(input, object, action, userNumber);
+        } else if(choice == 11){ //view account
             object = 3;
             sc.displayPerson(userNumber, object);
-        } else if (choice == 14){ //edit account
+        } else if (choice == 12){ //edit account
             object = 3;
             sc.editPerson(userNumber, object);
-        } else {
+        } else if(choice == 13){ //create class
+            cout << "Which course would you like to view? (search for course by entering course code)" << endl;
+            cin.ignore();
+            getline(cin, input);
+            action = 1;
+            sc.findCourse(input, action);
+        } else if(choice == 14){ //edit class
+
+        }  else {
             done = true;
         }
     } //admin session loop ends
@@ -188,7 +197,7 @@ void adminSession(School &sc, int userNumber){
 
 void teacherSession(School &sc, int userNumber){
     bool done = false; //this variable used when the user wants to stop updating the classes
-    string confirmation = "", personName = "";
+    string confirmation = "", input = "";
     int object, choice, action;
 
     while(!done){ //teacher session loop starts
@@ -200,7 +209,7 @@ void teacherSession(School &sc, int userNumber){
          * note for me: add a choice in #2 where the teacher can choose to mark a student as late or absent
          *
         */
-        cout << "2. View your class' information (Type \"2\")" << endl;
+        cout << "2. View your course's information (Type \"2\")" << endl;
         cout << "3. View your account information (Type \"3\")" << endl;
         cout << "4. Edit your account information (Type \"4\")" << endl;
         cout << endl;
@@ -209,15 +218,15 @@ void teacherSession(School &sc, int userNumber){
         cout << endl;
         cout << endl;
 
-        personName = "";
+        input = "";
 
         if (choice == 1) {
             cout << "Which student would you like to view? (search for student by entering theirenter name)" << endl;
             cin.ignore();
-            getline(cin, personName);
+            getline(cin, input);
             object = 2;
             action = 1;
-            userNumber = sc.findPeople(personName, object, action, userNumber);
+            userNumber = sc.findPeople(input, object, action, userNumber);
         } else if(choice == 2){
             //add code later
         } else if(choice == 3){

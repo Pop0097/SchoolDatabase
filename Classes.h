@@ -150,6 +150,12 @@ public:
     Course();
     Course(int, string, string, int);
     Course(int, int, string, string, int);
+    string getCourseSubject();
+    string getCourseCode();
+    int getCourseBlock();
+    string getCourseTeacher();
+    int getRoomNumber();
+
 
     string toString();
 };
@@ -172,16 +178,17 @@ private:
     int totalPeople;
 public:
     School(int, int, int, int);
-    //functions for signin
+    //Methods for signing in
     int adminLogin(string, string);
     int teacherLogin(string, string);
-    //CRUD functions for people
+    //CRUD methods for people
     int findPeople(string, int, int, int);
     void editPerson(int, int);
     void displayPerson(int, int);
     void createPerson(int);
     int deletePerson(int, int, int);
-    //functions for courses
+    //CRUD methods for classes
+    void findCourse(string, int);
 
     string toString();
 
