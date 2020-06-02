@@ -13,5 +13,5 @@ I made this database to learn about object oriented programming in C++ and to ex
 3. Navigate the database in the IDE and enjoy! :))
 
 NOTE: the default sign in credentials for admins and teachers are as follows:
-Username: d_uname
-Password: pass
+- Username: d_uname
+- Password: pass
