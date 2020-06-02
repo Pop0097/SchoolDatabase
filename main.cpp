@@ -7,7 +7,7 @@ int main() {
 
     School sc(10, 50, 1, 3); //initially creates a school with two teachers and two students
 
-    bool cancel = false, loginSuccess = false, signedIn = false, programKill = false;
+    bool cancel = false, signedIn = false, programKill = false;
     string u_name = "", pass = "";
     int in = 0, userNumber = 0;
 
@@ -79,8 +79,12 @@ void adminSession(School &sc, int userNumber){
     bool done = false; //this variable used when the user wants to stop updating the classes
     string confirmation = "", input = "";
     /*
+     * (for people)
      * object = 1 means teacher. object = 2 means student
      * action = 1 means view. action = 2 means edit. action = 3 means delete.
+     *
+     * (for courses)
+     * action = 1 means view. action = 2 means delete.
      */
     int object, choice, action;
 
@@ -200,7 +204,7 @@ void adminSession(School &sc, int userNumber){
             cout << "Which course would you like to delete? (search for course by entering course code)" << endl;
             cin.ignore();
             getline(cin, input);
-            action = 1;
+            action = 2;
             sc.findCourse(input, action);
         } else {
             done = true;

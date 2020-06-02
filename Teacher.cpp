@@ -9,6 +9,11 @@ Teacher::Teacher() : Person::Person(){
     employeeId = "Default Employee ID";
     t_username = "d_uname";
     t_encrypted_password = teacherEncrypt("pass", "Slf64kf321daC");
+    /*
+    for(int i = 0; i < 8; i++){
+        courses[i] = new Course();
+    }
+     */
 }
 
 Teacher::Teacher(string u, string pass) : Person::Person(){
@@ -16,6 +21,11 @@ Teacher::Teacher(string u, string pass) : Person::Person(){
     employeeId = "Default Employee ID";
     t_username = u;
     t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
+    /*
+    for(int i = 0; i < 8; i++){
+        courses[i] = new Course();
+    }
+     */
 }
 
 Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Person(f, l, a) {
@@ -34,6 +44,11 @@ Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Pe
     }
     t_username = "d_uname";
     t_encrypted_password = teacherEncrypt("pass", "Slf64kf321daC");
+    /*
+    for(int i = 0; i < 8; i++){
+        courses[i] = new Course();
+    }
+     */
 }
 
 Teacher::Teacher(string f, string l, string a, string t, string id, string u, string pass) : Person::Person(f, l, a) {
@@ -52,6 +67,11 @@ Teacher::Teacher(string f, string l, string a, string t, string id, string u, st
     }
     t_username = u;
     t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
+    /*
+    for(int i = 0; i < 8; i++){
+        courses[i] = new Course();
+    }
+     */
 }
 
 Teacher::~Teacher(){
@@ -145,4 +165,8 @@ void Teacher::setUsername(string uname){
 
 void Teacher::setPassword(string pass){
     t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
+}
+
+void Teacher::addCourse(Course& c, int block){
+    courses[block-1] = &c;
 }

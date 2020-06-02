@@ -56,6 +56,8 @@ Course::Course(int studentsNumber, int block, string sub, string code, int room,
     roomNumber = room;
 }
 
+Course::~Course(){}
+
 string Course::getCourseSubject(){
     return subject;
 }

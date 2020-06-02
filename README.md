@@ -11,3 +11,7 @@ I made this database to learn about object oriented programming in C++ and to ex
 1. Download the repository onto your computer.
 2. Open the .cpp and .h files in an IDE that can compile C++ and run the code.
 3. Navigate the database in the IDE and enjoy! :))
+
+NOTE: the default sign in credentials for admins and teachers are as follows:
+Username: d_uname
+Password: pass

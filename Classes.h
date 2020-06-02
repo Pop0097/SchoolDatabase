@@ -103,6 +103,8 @@ public:
 #ifndef TEACHER_H
 #define TEACHER_H
 
+class Course; //define Course class before Student and Person so the two classes can have an array of Courses
+
 class Teacher : public Person
 {
 private:
@@ -132,6 +134,7 @@ public:
     string getPassword();
     void setUsername(string);
     void setPassword(string);
+    void addCourse(Course&, int);
 };
 
 #endif
@@ -154,6 +157,7 @@ public:
     Course(int, string, string, int);
     Course(int, int, string, string, int);
     Course(int, int, string, string, int, Teacher&);
+    ~Course();
     string getCourseSubject();
     string getCourseCode();
     int getCourseBlock();
@@ -194,6 +198,7 @@ public:
     //CRUD methods for classes
     void findCourse(string, int);
     void createCourse();
+    void deleteCourse(int);
     string toString();
 
 };

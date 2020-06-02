@@ -524,8 +524,10 @@ void School::findCourse(string in, int action){ //find courses based on the cour
         cout << "Please select one of the above (or enter \"0\" to cancel)" << endl;
         cin >> decision;
         if(decision != 0 && action == 1){ //view
+            cout << endl;
             classes[decision-1]->toString(); //directly calls toString() function for course
         } else if (decision != 0 && action == 2){ //edit
+            this->deleteCourse(decision);
         } else if (decision != 0 && action == 3) { //delete
         }
     } else {
@@ -535,8 +537,11 @@ void School::findCourse(string in, int action){ //find courses based on the cour
 }
 
 void School::createCourse(){
+    bool done = false;
+    bool cancel = false;
     int students = 0, block = 0, room = 0;
     string subject = "", code = "";
+    cout << "Course information: (enter \"0\" in the next three fields to cancel)" << endl;
     cout << "Course subject: ";
     cin.ignore();
     getline(cin, subject);
@@ -546,10 +551,15 @@ void School::createCourse(){
     cin >> students;
     cout << endl;
 
-    bool done = false;
+    if(subject == "0" && code == "0" && students == 0){
+        cout << "Here";
+        done = true;
+        cancel = true;
+    }
+
     Teacher * tempTeach;
     while(!done){ //select course time and teacher loop starts
-        cout << "Selecting Time:" << endl;
+        cout << "Selecting Time: (enter \"0\" in the next 2 fields to cancel)" << endl;
         bool success = true;
         do{ //select time loop starts
             success = true;
@@ -557,74 +567,116 @@ void School::createCourse(){
             cin >> room;
             cout << "Course block: ";
             cin >> block;
-            for(int i = 0; i < classNumber; i++){ //ensures that the seclected room is free duirng the specified time
-                if(classes[i]->getCourseBlock() == block && classes[i]->getRoomNumber() == room){
-                    cout << "Room " << room << " is not free during block " << block << "." << endl;
-                    success = false;
+            if(room == 0 && block == 0){ //in case user wants to cancel the process during this step
+                cancel = true;
+                done = true;
+            } else {
+                for(int i = 0; i < classNumber; i++){ //ensures that the seclected room is free duirng the specified time
+                    if(classes[i]->getCourseBlock() == block && classes[i]->getRoomNumber() == room){
+                        cout << "Room " << room << " is not free during block " << block << "." << endl;
+                        success = false;
+                    }
                 }
             }
         } while(!success); //select time loop ends
-        cout << "Room " << room << " is free during block " << block << "." << endl;
-        cout << endl;
 
-        string desiredTeachable = "";
-        cout << "Selecting teacher:" << endl;
-        int counter = 1;
-        bool anyFound = false;
+        if(!cancel){ //If user wants to cancel, these steps are skipped
+            cout << "Room " << room << " is free during block " << block << "." << endl;
+            cout << endl;
 
-        do{ //select teacher loop starts
-            cout << "Enter the desired teachable (only one)" << endl;
-            cout << "Acceptable inputs: Math, CompSci, Physics, Chem, Bio, Eng, French, Spanish, Geo, History, Business, Tech, PhysEd, Music, VisualArt, Drama" << endl;
-            cin.ignore();
-            getline(cin, desiredTeachable);
-            for(int i = 0; i < teachers; i++){
-                tempTeach = dynamic_cast<Teacher*>(people[i]);
-                if(tempTeach->getTeachables().find(desiredTeachable) != -1 && people[i]->checkAvailability(block) == true){
+            string desiredTeachable = "";
+            cout << "Selecting teacher: (enter \"0\" in the next input to cancel)" << endl;
+            int counter = 1;
+            bool anyFound = false;
+
+            do{ //select teacher loop starts
+                cout << "Enter the desired teachable (only one)" << endl;
+                cout << "Acceptable inputs: Math, CompSci, Physics, Chem, Bio, Eng, French, Spanish, Geo, History, Business, Tech, PhysEd, Music, VisualArt, Drama" << endl;
+                cin.ignore();
+                getline(cin, desiredTeachable);
+                if(desiredTeachable == "0"){ //in case user wants to cancel the process during this step
+                    cancel = true;
                     anyFound = true;
-                    cout << counter << ". " << tempTeach->getFirstName() << " " << tempTeach->getLastName() << " (Employee ID: " << tempTeach->getEmployeeId() << "); Teachables: " << tempTeach->getTeachables() << " (Type \"" << (i+1) << "\")" <<  endl;
-                    counter++;
                     done = true;
+                } else{
+                    for(int i = 0; i < teachers; i++){
+                        tempTeach = dynamic_cast<Teacher*>(people[i]);
+                        if(tempTeach->getTeachables().find(desiredTeachable) != -1 && people[i]->checkAvailability(block) == true){
+                            anyFound = true;
+                            cout << counter << ". " << tempTeach->getFirstName() << " " << tempTeach->getLastName() << " (Employee ID: " << tempTeach->getEmployeeId() << "); Teachables: " << tempTeach->getTeachables() << " (Type \"" << (i+1) << "\")" <<  endl;
+                            counter++;
+                            done = true;
+                        }
+                    }
+                    if(!anyFound){
+                        cout << "No teachers who have the desired teachable are available during that block." << endl;
+                        cout << "Do you want to select a new block? (if yes, enter \"0\". If no (search a different teachable), enter \"1\").";
+                        int d = 0;
+                        cin >> d;
+                        if(d == 0){
+                            anyFound = true; //to get out of
+                        }
+                        cout << endl;
+                    }
                 }
-            }
-            if(!anyFound){
-                cout << "No teachers who have the desired teachable are available during that block." << endl;
-                cout << "Do you want to select a new block? (if yes, enter \"0\". If no (search a different teachable), enter \"1\").";
-                int d = 0;
-                cin >> d;
-                if(d == 0){
-                    anyFound = true; //to get out of
-                }
-                cout << endl;
-            }
-        } while (!anyFound); //select teacher loop ends
+            } while (!anyFound); //select teacher loop ends
+        }
     } //select course time and teacher loop ends
 
-    classNumber++;
-    Course ** tempArray = classes;
-    classes = new Course*[classNumber];
+    if(!cancel){ //if user wants to cancel, these steps are skipped
+        classNumber++;
+        Course ** tempArray = classes;
+        classes = new Course*[classNumber];
 
-    int decision = 0;
-    cout << "Choose a teacher: ";
-    cin >> decision;
+        int decision = 0;
+        cout << "Choose a teacher (Enter \"0\" to cancel): ";
+        cin >> decision;
+        if(decision != 0){ //if user did not cancel the process
+            tempTeach = dynamic_cast<Teacher*>(people[decision-1]);
+            people[decision-1]->changeAvailability(block);
 
-    tempTeach = dynamic_cast<Teacher*>(people[decision-1]);
-    people[decision-1]->changeAvailability(block);
+            Course * tempCourse = new Course(students, block, subject, code, room, *tempTeach);
 
-    Course * tempCourse = new Course(students, block, subject, code, room, *tempTeach);
+            cout << "Here" << endl;
 
-    for(int i = 0; i < classNumber; i++){
-        if(i < classNumber - 1){
-            classes[i] = tempArray[i];
-        } else{
-            classes[i] = tempCourse;
+            for(int i = 0; i < classNumber; i++){
+                if(i < classNumber - 1){
+                    classes[i] = tempArray[i];
+                } else{
+                    classes[i] = tempCourse;
+                    //tempTeach->addCourse(*tempCourse, block);
+                }
+            }
+            cout << "Course created. " << endl;
+            classes[classNumber-1]->toString();
+            cout << endl;
         }
+        delete [] tempArray;
     }
-    cout << "Course created. " << endl;
-    classes[classNumber-1]->toString();
-    cout << endl;
 }
 
-
+void School::deleteCourse(int index){
+    string confirmation = "";
+    cout << "Are you sure? (enter \"y\" or \"n\")" << endl;
+    cin.ignore();
+    getline(cin, confirmation);
+    if(confirmation == "y"){
+        index--;
+        classNumber--;
+        Course ** tempArray = classes;
+        classes = new Course*[classNumber];
+        for(int i = 0; i < classNumber; i++){
+            if(i < index){
+                classes[i] = tempArray[i];
+            }
+            else{
+                classes[i] = tempArray[i+1];
+            }
+        }
+        delete [] tempArray;
+        cout << "Course deleted" << endl;
+    }
+}
 
 
 
