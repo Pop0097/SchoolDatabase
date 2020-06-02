@@ -8,6 +8,9 @@ Person::Person(){
     firstName = "Default First Name";
     lastName = "Default Last Name";
     address = "Default Address";
+    for(int i = 0; i < 8; i++){
+        free[i] = true;
+    }
 }
 
 Person::Person(string first, string last, string add){
@@ -30,6 +33,9 @@ Person::Person(string first, string last, string add){
     }
     else{
         address = "Default Address";
+    }
+    for(int i = 0; i < 8; i++){
+        free[i] = true;
     }
 }
 
@@ -57,4 +63,20 @@ void Person::setLastName(string n){
 
 void Person::setAddress(string a){
     address = a;
+}
+
+bool Person::checkAvailability(int block) {
+    if(free[block-1] == true){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void Person::changeAvailability(int block){
+    if(free[block-1] == true){
+        free[block-1] = false;
+    } else{
+        free[block-1] = true;
+    }
 }

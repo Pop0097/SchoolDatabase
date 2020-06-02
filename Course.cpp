@@ -43,6 +43,19 @@ Course::Course(int studentsNumber, int block, string sub, string code, int room)
     roomNumber = room;
 }
 
+Course::Course(int studentsNumber, int block, string sub, string code, int room, Teacher& teach){
+    studentNumber = studentsNumber;
+    students = new Student*[studentsNumber];
+    for(int i = 0; i < studentsNumber; i++){
+        students[i] = new Student();
+    }
+    instructor = &teach;
+    courseBlock = block;
+    subject = sub;
+    courseCode = code;
+    roomNumber = room;
+}
+
 string Course::getCourseSubject(){
     return subject;
 }
@@ -71,7 +84,7 @@ string Course::toString(){
     cout << "Course: " << subject << " (" << courseCode << ")" <<  endl;
     cout << "Block: " << courseBlock << endl;
     cout << "Room: " << roomNumber << endl;
-    cout << "Teacher: " << instructor->getFirstName() << " " << instructor->getLastName() << "; " << instructor->getEmployeeId() << endl;
+    cout << "Teacher: " << instructor->getFirstName() << " " << instructor->getLastName() << "; (Employee ID: " << instructor->getEmployeeId() << ")" << endl;
     cout << "Students: " << endl;
     int counter = 1;
     for(int i = 0; i < studentNumber; i++){

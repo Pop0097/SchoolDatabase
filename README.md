@@ -2,7 +2,7 @@
 
 This database uses a text-based UI to enable users to create, update, and destroy information pertaining to a school.
 
-When deployed, the database creates a default school with 10 teachers, 50 students, and 1 administrator. The user can then change, add to, or delete the given information as they see fit. This database is not hosted, thus the termination of the program will result in the subsequent deleting of all changes made by the user.
+When deployed, the database creates a default school with 10 teachers, 50 students, 1 administrator, and 3 courses. The user can then change, add to, or delete the given information as they see fit. This database is not hosted, thus the termination of the program will result in the loss of all changes made by the user.
 
 I made this database to learn about object oriented programming in C++ and to expand my skills in inheritance, polymorphism, etc.
 

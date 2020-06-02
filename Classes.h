@@ -44,6 +44,7 @@ protected:
     string firstName;
     string lastName;
     string address;
+    bool free[8];
 public:
     Person();
     Person(string, string, string);
@@ -54,6 +55,8 @@ public:
     void setFirstName(string);
     void setLastName(string);
     void setAddress(string);
+    bool checkAvailability(int);
+    void changeAvailability(int);
     //pure virtual functions are declared in base class and will be overridden via function overriding in the child classes
     virtual string toString() const = 0;
     virtual bool isValidId(string) const = 0; //this method checks if the student ID or teacher ID is valid.
@@ -150,6 +153,7 @@ public:
     Course();
     Course(int, string, string, int);
     Course(int, int, string, string, int);
+    Course(int, int, string, string, int, Teacher&);
     string getCourseSubject();
     string getCourseCode();
     int getCourseBlock();
@@ -189,7 +193,7 @@ public:
     int deletePerson(int, int, int);
     //CRUD methods for classes
     void findCourse(string, int);
-
+    void createCourse();
     string toString();
 
 };

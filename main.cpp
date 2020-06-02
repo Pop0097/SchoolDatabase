@@ -165,7 +165,7 @@ void adminSession(School &sc, int userNumber){
             action = 3;
             userNumber = sc.findPeople(input, object, action, userNumber);
         } else if(choice == 9){
-            cout << "Creating a administrator:" << endl;
+            cout << "Creating an administrator:" << endl;
             object = 3;
             sc.createPerson(object);
         } else if(choice == 10){ //delete admin
@@ -181,15 +181,28 @@ void adminSession(School &sc, int userNumber){
         } else if (choice == 12){ //edit account
             object = 3;
             sc.editPerson(userNumber, object);
-        } else if(choice == 13){ //create class
+        } else if(choice == 13){ //view course
             cout << "Which course would you like to view? (search for course by entering course code)" << endl;
             cin.ignore();
             getline(cin, input);
             action = 1;
             sc.findCourse(input, action);
-        } else if(choice == 14){ //edit class
-
-        }  else {
+        } else if(choice == 14){ //edit course
+            cout << "Which course would you like to edit? (search for course by entering course code)" << endl;
+            cin.ignore();
+            getline(cin, input);
+            action = 1;
+            sc.findCourse(input, action);
+        } else if(choice == 15){ //create course
+            cout << "Creating a course:" << endl;
+            sc.createCourse();
+        } else if(choice == 16){ //delete course
+            cout << "Which course would you like to delete? (search for course by entering course code)" << endl;
+            cin.ignore();
+            getline(cin, input);
+            action = 1;
+            sc.findCourse(input, action);
+        } else {
             done = true;
         }
     } //admin session loop ends
