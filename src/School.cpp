@@ -144,7 +144,7 @@ int School::findPeople(string n, int object, int action, int userNumber){ //func
         }
     }
     else if (object == 2){ //searching for students
-        for(int i = teachers-1; i < totalPeople; i++){
+        for(int i = teachers; i < totalPeople; i++){
             if(searchType == 0){
                 int found1 = people[i]->getFirstName().find(n);
                 int found2 = people[i]->getLastName().find(n);
@@ -187,6 +187,12 @@ int School::findPeople(string n, int object, int action, int userNumber){ //func
             this->editPerson(decision, object);
         } else if (decision != 0 && action == 3) { //delete
             userNumber = this->deletePerson(decision, object, userNumber);
+        } else if(decision != 0 && action == 4) { //mark student late
+            Student * tempStudent = dynamic_cast<Student*>(people[decision-1+teachers]);
+            tempStudent->addLate();
+        } else if(decision != 0 && action == 5) { //mark student absent
+            Student * tempStudent = dynamic_cast<Student*>(people[decision-1+teachers]);
+            tempStudent->addAbsence();
         }
     } else {
         cout << "No entries matched your search." << endl;
@@ -539,19 +545,17 @@ void School::findCourse(string in, int action){ //find courses based on the cour
 void School::createCourse(){
     bool done = false;
     bool cancel = false;
-    int students = 0, block = 0, room = 0;
+    int block = 0, room = 0;
     string subject = "", code = "";
-    cout << "Course information: (enter \"0\" in the next three fields to cancel)" << endl;
+    cout << "Course information: (enter \"0\" in the next two fields to cancel)" << endl;
     cout << "Course subject: ";
     cin.ignore();
     getline(cin, subject);
     cout << "Course code: ";
     getline(cin, code);
-    cout << "Number of students: ";
-    cin >> students;
     cout << endl;
 
-    if(subject == "0" && code == "0" && students == 0){
+    if(subject == "0" && code == "0" ){
         cout << "Here";
         done = true;
         cancel = true;
@@ -585,7 +589,7 @@ void School::createCourse(){
             cout << endl;
 
             string desiredTeachable = "";
-            cout << "Selecting teacher: (enter \"0\" in the next input to cancel)" << endl;
+            cout << "Selecting teacher: (enter \"0\" in the next field to cancel)" << endl;
             int counter = 1;
             bool anyFound = false;
 
@@ -635,7 +639,7 @@ void School::createCourse(){
             tempTeach = dynamic_cast<Teacher*>(people[decision-1]);
             people[decision-1]->changeAvailability(block);
 
-            Course * tempCourse = new Course(students, block, subject, code, room, *tempTeach);
+            Course * tempCourse = new Course(block, subject, code, room, *tempTeach);
 
             cout << "Here" << endl;
 
@@ -644,7 +648,8 @@ void School::createCourse(){
                     classes[i] = tempArray[i];
                 } else{
                     classes[i] = tempCourse;
-                    //tempTeach->addCourse(*tempCourse, block);
+                    string courseInfo = tempCourse->getCourseSubject() + ": " + tempCourse->getCourseCode() + "\n Room: " + to_string(tempCourse->getRoomNumber());
+                    tempTeach->addCourse(courseInfo, block);
                 }
             }
             cout << "Course created. " << endl;
@@ -654,6 +659,15 @@ void School::createCourse(){
         delete [] tempArray;
     }
 }
+
+
+
+
+
+
+
+
+
 
 void School::deleteCourse(int index){
     string confirmation = "";
@@ -677,10 +691,6 @@ void School::deleteCourse(int index){
         cout << "Course deleted" << endl;
     }
 }
-
-
-
-
 
 string School::toString(){
     int counter = 0; //this makes sure the elements for schoolStudents[] starts at zero

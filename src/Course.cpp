@@ -30,23 +30,10 @@ Course::Course(int block, string sub, string code, int room){
     roomNumber = room;
 }
 
-Course::Course(int studentsNumber, int block, string sub, string code, int room){
-    studentNumber = studentsNumber;
-    students = new Student*[studentsNumber];
-    for(int i = 0; i < studentsNumber; i++){
-        students[i] = new Student();
-    }
-    instructor = new Teacher();
-    courseBlock = block;
-    subject = sub;
-    courseCode = code;
-    roomNumber = room;
-}
-
-Course::Course(int studentsNumber, int block, string sub, string code, int room, Teacher& teach){
-    studentNumber = studentsNumber;
-    students = new Student*[studentsNumber];
-    for(int i = 0; i < studentsNumber; i++){
+Course::Course(int block, string sub, string code, int room, Teacher& teach){
+    studentNumber = 10;
+    students = new Student*[10];
+    for(int i = 0; i < 10; i++){
         students[i] = new Student();
     }
     instructor = &teach;

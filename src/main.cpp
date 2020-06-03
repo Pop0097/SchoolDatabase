@@ -5,7 +5,7 @@ void teacherSession(School&, int);
 
 int main() {
 
-    School sc(10, 50, 1, 3); //initially creates a school with two teachers and two students
+    School sc(10, 5, 1, 3); //initially creates a school with two teachers and two students
 
     bool cancel = false, signedIn = false, programKill = false;
     string u_name = "", pass = "";
@@ -78,15 +78,19 @@ void adminSession(School &sc, int userNumber){
 
     bool done = false; //this variable used when the user wants to stop updating the classes
     string confirmation = "", input = "";
+    int object, choice, action;
+
     /*
-     * (for people)
+     * (for people [administrators, teachers, and students])
      * object = 1 means teacher. object = 2 means student
-     * action = 1 means view. action = 2 means edit. action = 3 means delete.
+     * action = 1 means view. action = 2 means edit. action = 3 means delete. action = 4 means mark student late.
+     * action  = 5 means mark student absent.
      *
      * (for courses)
      * action = 1 means view. action = 2 means delete.
+     * action = 3 means add student(s) to course. action = 4 means remove student from course.
+     * action = 5 means change teacher of course. action = 6 means change time or classroom of a course)
      */
-    int object, choice, action;
 
     while(!done) { //admin session loop starts
         cout << endl;
@@ -102,14 +106,16 @@ void adminSession(School &sc, int userNumber){
         cout << "8. Delete a student (Type \"8\")" << endl;
         cout << "9. Create an administrator (Type \"9\")" << endl;
         cout << "10. Delete an administrator (Type \"10\")" << endl;
+        cout << "11. Mark a student late (Type \"11\")" << endl;
+        cout << "12. Mark a student absent (Type \"12\")" << endl;
         cout << "Actions for your account: " << endl;
-        cout << "11. View your account information (Type \"11\")" << endl;
-        cout << "12. Edit your account information (Type \"12\")" << endl;
+        cout << "13. View your account information (Type \"13\")" << endl;
+        cout << "14. Edit your account information (Type \"14\")" << endl;
         cout << "Actions for courses:" << endl;
-        cout << "13. View a course's information (Type \"13\")" << endl;
-        cout << "14. Edit a course's information (Type \"14\")" << endl;
-        cout << "15. Create a course (Type \"15\")" << endl;
-        cout << "16. Delete a course (Type \"16\")" << endl;
+        cout << "15. View a course's information (Type \"15\")" << endl;
+        cout << "16. Edit a course's information (Type \"16\")" << endl;
+        cout << "17. Create a course (Type \"17\")" << endl;
+        cout << "18. Delete a course (Type \"18\")" << endl;
         cout << endl;
         cout << "Log out (Type \"100\")" << endl;
         cin >> choice;
@@ -179,28 +185,53 @@ void adminSession(School &sc, int userNumber){
             object = 3;
             action = 3;
             sc.findPeople(input, object, action, userNumber);
-        } else if(choice == 11){ //view account
+        } else if(choice == 11){
+            cout << "Which student would you like to mark late? (search for student by entering their name)" << endl;
+            cin.ignore();
+            getline(cin, input);
+            object = 2;
+            action = 4;
+            userNumber = sc.findPeople(input, object, action, userNumber);
+        } else if(choice == 12){
+            cout << "Which student would you like to mark absent? (search for student by entering their name)" << endl;
+            cin.ignore();
+            getline(cin, input);
+            object = 2;
+            action = 5;
+            userNumber = sc.findPeople(input, object, action, userNumber);
+        } else if(choice == 13){ //view account
             object = 3;
             sc.displayPerson(userNumber, object);
-        } else if (choice == 12){ //edit account
+        } else if (choice == 14){ //edit account
             object = 3;
             sc.editPerson(userNumber, object);
-        } else if(choice == 13){ //view course
+        } else if(choice == 15){ //view course
             cout << "Which course would you like to view? (search for course by entering course code)" << endl;
             cin.ignore();
             getline(cin, input);
             action = 1;
             sc.findCourse(input, action);
-        } else if(choice == 14){ //edit course
+        } else if(choice == 16){ //edit course
+            choice = 0;
+            cout << "Would you like to:\n1. Add student(s) to a course (Type \"1\") \n2. Remove a student from a course (Type \"2\") \n3.Change the teacher of a course (Type \"3\") \n4.Change the time/room of a course (Type \"4\")" << endl;
+            cin >> choice;
             cout << "Which course would you like to edit? (search for course by entering course code)" << endl;
             cin.ignore();
             getline(cin, input);
-            action = 1;
+            if(choice == 1){
+                action = 3;
+            } else if(choice == 2){
+                action = 4;
+            } else if(choice == 3){
+                action = 5;
+            } else {
+                action = 6;
+            }
             sc.findCourse(input, action);
-        } else if(choice == 15){ //create course
+        } else if(choice == 17){ //create course
             cout << "Creating a course:" << endl;
             sc.createCourse();
-        } else if(choice == 16){ //delete course
+        } else if(choice == 18){ //delete course
             cout << "Which course would you like to delete? (search for course by entering course code)" << endl;
             cin.ignore();
             getline(cin, input);
@@ -221,14 +252,11 @@ void teacherSession(School &sc, int userNumber){
         cout << endl;
         cout << "Select an action:" << endl;
         cout << "1. View a student's information (Type \"1\")" << endl; //Instead, make the admin enter the person's name. The program will search for the person and then output the desired one. (reduces need to list so many!!!)
-        /*
-         *
-         * note for me: add a choice in #2 where the teacher can choose to mark a student as late or absent
-         *
-        */
-        cout << "2. View your course's information (Type \"2\")" << endl;
-        cout << "3. View your account information (Type \"3\")" << endl;
-        cout << "4. Edit your account information (Type \"4\")" << endl;
+        cout << "2. Mark a student late (Type \"2\")" << endl;
+        cout << "3. Mark a student absent (Type \"3\")" << endl;
+        cout << "4. View your course's information (Type \"4\")" << endl;
+        cout << "5. View your account information (Type \"5\")" << endl;
+        cout << "6. Edit your account information (Type \"6\")" << endl;
         cout << endl;
         cout << "Log out (Type \"100\")" << endl;
         cin >> choice;
@@ -238,18 +266,32 @@ void teacherSession(School &sc, int userNumber){
         input = "";
 
         if (choice == 1) {
-            cout << "Which student would you like to view? (search for student by entering theirenter name)" << endl;
+            cout << "Which student would you like to view? (search for student by entering their name)" << endl;
             cin.ignore();
             getline(cin, input);
             object = 2;
             action = 1;
             userNumber = sc.findPeople(input, object, action, userNumber);
         } else if(choice == 2){
-            //add code later
+            cout << "Which student would you like to mark late? (search for student by entering their name)" << endl;
+            cin.ignore();
+            getline(cin, input);
+            object = 2;
+            action = 4;
+            userNumber = sc.findPeople(input, object, action, userNumber);
         } else if(choice == 3){
+            cout << "Which student would you like to mark absent? (search for student by entering their name)" << endl;
+            cin.ignore();
+            getline(cin, input);
+            object = 2;
+            action = 5;
+            userNumber = sc.findPeople(input, object, action, userNumber);
+        } else if(choice == 4){
+            //add code later
+        } else if(choice == 5){
             object = 1;
             sc.displayPerson(userNumber, object);
-        } else if(choice == 4){
+        } else if(choice == 6){
             object = 1;
             sc.editPerson(userNumber, object);
         } else {

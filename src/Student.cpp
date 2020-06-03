@@ -9,6 +9,9 @@ Student::Student() : Person::Person(){
     studentId = "Default Student ID";
     numLates = 0;
     numAbsences = 0;
+    for(int i = 0; i < 8; i++){
+        schedule[i] = "Spare";
+    }
 }
 
 //in next two methods, add the isValid() function to test the student id.
@@ -31,6 +34,9 @@ Student::Student(string first, string last, string add, string g, string id) : P
     else{
         cout << "Not a valid Id, please set a new id using \"obejctName\".setStudentId(\"studentID\")" << endl;
         studentId = "Default Student ID";
+    }
+    for(int i = 0; i < 8; i++){
+        schedule[i] = "Spare";
     }
 }
 
@@ -75,6 +81,7 @@ void Student::setStudentId(string id){ //this needs the isValid method
 
 void Student::addLate(){ //this is added via the Teacher class
     numLates++;
+    //cout << "done" << endl;
 }
 
 void Student::addAbsence() { //this is added via the Teacher class
@@ -88,6 +95,12 @@ string Student::toString() const{
     cout << "Student ID: " << studentId << endl;
     cout << "Number of Lates: " << numLates << endl;
     cout << "Number of Absences: " << numAbsences << endl;
+    cout << "Schedule" << endl;
+    for(int i = 0; i < 8; i++){
+        cout << "-----------------------------" << endl;
+        cout << "Block " << (i+1) << endl;
+        cout << schedule[i] << endl;
+    }
     cout << endl;
     return "";
 }

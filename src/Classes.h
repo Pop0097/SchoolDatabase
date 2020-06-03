@@ -72,8 +72,6 @@ public:
 #ifndef STUDENT_H
 #define STUDENT_H
 
-class Course; //define Course class before Student and Person so the two classes can have an array of Courses
-
 class Student : public Person
 {
 private:
@@ -81,7 +79,7 @@ private:
     string studentId;
     int numLates;
     int numAbsences;
-    Course ** courses;
+    string schedule[8];
 public:
     Student();
     Student(string, string, string, string, string); //no need for other constructors as user is forced to initialize all values
@@ -103,8 +101,6 @@ public:
 #ifndef TEACHER_H
 #define TEACHER_H
 
-class Course; //define Course class before Student and Person so the two classes can have an array of Courses
-
 class Teacher : public Person
 {
 private:
@@ -113,7 +109,7 @@ private:
     int teacherNumber;
     string t_username;
     string t_encrypted_password;
-    Course ** courses;
+    string schedule[8];
 public:
     Teacher();
     Teacher(string, string);
@@ -124,8 +120,6 @@ public:
     string getEmployeeId();
     void setTeachables(string);
     void setEmployeeId(string);
-    void markStudentLate(Student&);
-    void markStudentAbsent(Student&);
     bool isValidId(string) const;
     string toString() const;
     string teacherEncrypt(string, string);
@@ -134,7 +128,7 @@ public:
     string getPassword();
     void setUsername(string);
     void setPassword(string);
-    void addCourse(Course&, int);
+    void addCourse(string, int);
 };
 
 #endif
@@ -155,8 +149,7 @@ private:
 public:
     Course();
     Course(int, string, string, int);
-    Course(int, int, string, string, int);
-    Course(int, int, string, string, int, Teacher&);
+    Course(int, string, string, int, Teacher&);
     ~Course();
     string getCourseSubject();
     string getCourseCode();

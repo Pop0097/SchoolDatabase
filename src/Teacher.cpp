@@ -9,11 +9,9 @@ Teacher::Teacher() : Person::Person(){
     employeeId = "Default Employee ID";
     t_username = "d_uname";
     t_encrypted_password = teacherEncrypt("pass", "Slf64kf321daC");
-    /*
     for(int i = 0; i < 8; i++){
-        courses[i] = new Course();
+        schedule[i] = "Break";
     }
-     */
 }
 
 Teacher::Teacher(string u, string pass) : Person::Person(){
@@ -21,11 +19,9 @@ Teacher::Teacher(string u, string pass) : Person::Person(){
     employeeId = "Default Employee ID";
     t_username = u;
     t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
-    /*
     for(int i = 0; i < 8; i++){
-        courses[i] = new Course();
+        schedule[i] = "Break";
     }
-     */
 }
 
 Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Person(f, l, a) {
@@ -44,11 +40,9 @@ Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Pe
     }
     t_username = "d_uname";
     t_encrypted_password = teacherEncrypt("pass", "Slf64kf321daC");
-    /*
     for(int i = 0; i < 8; i++){
-        courses[i] = new Course();
+        schedule[i] = "Break";
     }
-     */
 }
 
 Teacher::Teacher(string f, string l, string a, string t, string id, string u, string pass) : Person::Person(f, l, a) {
@@ -67,16 +61,12 @@ Teacher::Teacher(string f, string l, string a, string t, string id, string u, st
     }
     t_username = u;
     t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
-    /*
     for(int i = 0; i < 8; i++){
-        courses[i] = new Course();
+        schedule[i] = "Break";
     }
-     */
 }
 
-Teacher::~Teacher(){
-    cout << "deleted" << endl;
-}
+Teacher::~Teacher(){}
 
 string Teacher::getTeachables() {
     return teachables;
@@ -100,19 +90,17 @@ void Teacher::setEmployeeId(string id) {
     }
 }
 
-void Teacher::markStudentLate(Student &s) { //this is used to mark students late
-    s.addLate();
-}
-
-void Teacher::markStudentAbsent(Student &s){//this is used to mark students as absent
-    s.addAbsence();
-}
-
 string Teacher::toString() const{
     cout << "Name: " << firstName << " " << lastName << endl;
     cout << "Address: " << address << endl;
     cout << "Teachables: " << teachables << endl;
     cout << "Employee ID: " << employeeId << endl;
+    cout << "Schedule: " << endl;
+    for(int i = 0; i < 8; i++){
+        cout << "-----------------------------" << endl;
+        cout << "Block " << (i+1) << endl;
+        cout << schedule[i] << endl;
+    }
     cout << endl;
     return "";
 }
@@ -167,6 +155,6 @@ void Teacher::setPassword(string pass){
     t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
 }
 
-void Teacher::addCourse(Course& c, int block){
-    courses[block-1] = &c;
+void Teacher::addCourse(string c, int block){
+    schedule[block-1] = c;
 }

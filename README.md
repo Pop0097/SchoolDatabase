@@ -12,6 +12,6 @@ I made this database to learn about object oriented programming in C++ and to ex
 2. Open the .cpp and .h files in an IDE that can compile C++ and run the code.
 3. Navigate the database in the IDE and enjoy! :))
 
-NOTE: the default sign in credentials for admins and teachers are as follows:
+NOTE: the default sign in credentials for administrators and teachers are as follows:
 - Username: d_uname
 - Password: pass
