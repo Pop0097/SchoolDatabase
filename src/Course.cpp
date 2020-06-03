@@ -11,7 +11,7 @@ Course::Course(){ //makes a course with ten students and one teacher
         students[i] = new Student();
     }
     instructor = new Teacher();
-    courseBlock = 0;
+    courseBlock = 1;
     subject = "Default";
     courseCode = "Default";
     roomNumber = 0;
@@ -66,8 +66,13 @@ int Course::getRoomNumber(){
     return roomNumber;
 }
 
+void Course::displayTeacher() {
+    cout << instructor->getFirstName() << " " << instructor->getLastName();
+}
 
-
+void Course::setCourseTeacher(Teacher& teach){
+    instructor = &teach;
+}
 
 string Course::toString(){
     cout << "Course: " << subject << " (" << courseCode << ")" <<  endl;

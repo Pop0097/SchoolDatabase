@@ -125,7 +125,7 @@ void adminSession(School &sc, int userNumber){
         input = "";
 
         if (choice == 1) {
-            cout << "Which teacher would you like to view? (search for teacher by entering theirenter name)" << endl;
+            cout << "Which teacher would you like to view? (search for teacher by entering their name)" << endl;
             cin.ignore();
             getline(cin, input);
             object = 1;
@@ -185,14 +185,14 @@ void adminSession(School &sc, int userNumber){
             object = 3;
             action = 3;
             sc.findPeople(input, object, action, userNumber);
-        } else if(choice == 11){
+        } else if(choice == 11){ //mark student late
             cout << "Which student would you like to mark late? (search for student by entering their name)" << endl;
             cin.ignore();
             getline(cin, input);
             object = 2;
             action = 4;
             userNumber = sc.findPeople(input, object, action, userNumber);
-        } else if(choice == 12){
+        } else if(choice == 12){ //mark student absent
             cout << "Which student would you like to mark absent? (search for student by entering their name)" << endl;
             cin.ignore();
             getline(cin, input);
@@ -213,18 +213,18 @@ void adminSession(School &sc, int userNumber){
             sc.findCourse(input, action);
         } else if(choice == 16){ //edit course
             choice = 0;
-            cout << "Would you like to:\n1. Add student(s) to a course (Type \"1\") \n2. Remove a student from a course (Type \"2\") \n3.Change the teacher of a course (Type \"3\") \n4.Change the time/room of a course (Type \"4\")" << endl;
+            cout << "Would you like to:\n1. Add student(s) to a course (Type \"1\") \n2. Remove a student from a course (Type \"2\") \n3. Change the teacher of a course (Type \"3\") \n4. Change the time/room of a course (Type \"4\")" << endl;
             cin >> choice;
             cout << "Which course would you like to edit? (search for course by entering course code)" << endl;
             cin.ignore();
             getline(cin, input);
-            if(choice == 1){
+            if(choice == 1){ //add student(s) to course
                 action = 3;
-            } else if(choice == 2){
+            } else if(choice == 2){ //remove a student
                 action = 4;
-            } else if(choice == 3){
+            } else if(choice == 3){ //change the teacher
                 action = 5;
-            } else {
+            } else { //change the time/room of the course
                 action = 6;
             }
             sc.findCourse(input, action);
@@ -237,7 +237,7 @@ void adminSession(School &sc, int userNumber){
             getline(cin, input);
             action = 2;
             sc.findCourse(input, action);
-        } else {
+        } else { //log out
             done = true;
         }
     } //admin session loop ends
@@ -265,36 +265,36 @@ void teacherSession(School &sc, int userNumber){
 
         input = "";
 
-        if (choice == 1) {
+        if (choice == 1) { //view a student's information
             cout << "Which student would you like to view? (search for student by entering their name)" << endl;
             cin.ignore();
             getline(cin, input);
             object = 2;
             action = 1;
             userNumber = sc.findPeople(input, object, action, userNumber);
-        } else if(choice == 2){
+        } else if(choice == 2){ //mark student late
             cout << "Which student would you like to mark late? (search for student by entering their name)" << endl;
             cin.ignore();
             getline(cin, input);
             object = 2;
             action = 4;
             userNumber = sc.findPeople(input, object, action, userNumber);
-        } else if(choice == 3){
+        } else if(choice == 3){ //mark student absent
             cout << "Which student would you like to mark absent? (search for student by entering their name)" << endl;
             cin.ignore();
             getline(cin, input);
             object = 2;
             action = 5;
             userNumber = sc.findPeople(input, object, action, userNumber);
-        } else if(choice == 4){
+        } else if(choice == 4){ //view course information
             //add code later
-        } else if(choice == 5){
+        } else if(choice == 5){ //display user account information
             object = 1;
             sc.displayPerson(userNumber, object);
-        } else if(choice == 6){
+        } else if(choice == 6){ //edit user account information
             object = 1;
             sc.editPerson(userNumber, object);
-        } else {
+        } else { //log out
             done = true;
         }
     } //admin session loop ends

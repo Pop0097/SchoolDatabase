@@ -156,7 +156,8 @@ public:
     int getCourseBlock();
     string getCourseTeacher();
     int getRoomNumber();
-
+    void setCourseTeacher(Teacher&);
+    void displayTeacher();
 
     string toString();
 };
@@ -192,8 +193,12 @@ public:
     void findCourse(string, int);
     void createCourse();
     void deleteCourse(int);
+    void addStudents(int);
+    void removeStudent(int);
+    void changeTeacher(int);
+    void changeCourseTime(int);
+    bool findTeachers(int, int);
     string toString();
-
 };
 
 #endif
