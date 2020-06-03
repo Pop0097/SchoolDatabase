@@ -156,7 +156,9 @@ public:
     int getCourseBlock();
     string getCourseTeacher();
     int getRoomNumber();
+    void setCourseBlock(int);
     void setCourseTeacher(Teacher&);
+    void setRoomNumber(int);
     void displayTeacher();
 
     string toString();

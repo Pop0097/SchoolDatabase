@@ -661,6 +661,40 @@ void School::changeTeacher(int course){
 
 void School::changeCourseTime(int course){
     course--;
+    cout << "Current information: " << endl;
+    cout << "Block: " << classes[course]->getCourseBlock() << endl;
+    cout << "Room Number: " << classes[course]->getRoomNumber() << endl;
+    cout << endl;
+    cout << "Selecting Time: (Type \"0\" in the next 2 fields to cancel)" << endl;
+    bool success = true, done = false;
+    int room, block;
+    do{ //select time loop starts
+        success = true;
+        cout << "Room Number: ";
+        cin >> room;
+        cout << "Course block: ";
+        cin >> block;
+        if(room == 0 && block == 0){ //in case user wants to cancel the process during this step
+            done = true;
+            success = false;
+        } else {
+            for(int i = 0; i < classNumber; i++){ //ensures that the seclected room is free duirng the specified time
+                if(classes[i]->getCourseBlock() == block && classes[i]->getRoomNumber() == room){
+                    cout << "Room " << room << " is not free during block " << block << "." << endl;
+                    success = false;
+                }
+            }
+        }
+    } while(!success && !done); //select time loop ends
+
+    if(success){
+        cout << "Room " << room << " is free during block " << block << "." << endl;
+        classes[course]->setCourseBlock(block);
+        classes[course]->setRoomNumber(room);
+        cout << endl;
+        cout << "Course updated" << endl;
+        cout << endl;
+    }
 }
 
 

@@ -70,8 +70,16 @@ void Course::displayTeacher() {
     cout << instructor->getFirstName() << " " << instructor->getLastName();
 }
 
+void Course::setCourseBlock(int block){
+    courseBlock = block;
+}
+
 void Course::setCourseTeacher(Teacher& teach){
     instructor = &teach;
+}
+
+void Course::setRoomNumber(int num){
+    roomNumber = num;
 }
 
 string Course::toString(){
