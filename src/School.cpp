@@ -405,11 +405,9 @@ void School::createPerson(int object) {
                 cout << endl;
                 cout << "New Student:" << endl;
                 people[totalPeople - 1]->toString();
-                delete tempPerson;
             }
         }
         delete[] temporaryArray;
-
     } else {
         cin.ignore();
         string name = "", username = "", password = "";
@@ -443,7 +441,6 @@ void School::createPerson(int object) {
             cout << "New Administrator:" << endl;
             adminArray[administrators - 1]->toString();
             delete [] tempAdminArray;
-            delete newAdmin;
         }
     }
 
@@ -848,8 +845,8 @@ bool School::findStudents(int block){
 
 string School::toString(){
     int counter = 0; //this makes sure the elements for schoolStudents[] starts at zero
-    for(int i = 0; i < totalPeople; i++){
-        people[i] -> toString();
+    for(int i = teachers; i < totalPeople; i++){
+        cout << people[i]->getFirstName() << " " << people[i]->getLastName() << endl;
         cout << endl;
     }
     return "";

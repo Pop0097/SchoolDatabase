@@ -238,7 +238,8 @@ void adminSession(School &sc, int userNumber){
             action = 2;
             sc.findCourse(input, action);
         } else { //log out
-            done = true;
+            sc.toString();
+            //done = true;
         }
     } //admin session loop ends
 }
