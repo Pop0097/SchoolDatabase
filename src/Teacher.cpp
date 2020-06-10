@@ -158,3 +158,8 @@ void Teacher::setPassword(string pass){
 void Teacher::addCourse(string c, int block){
     schedule[block-1] = c;
 }
+
+void Teacher::removeCourse(int block){
+    schedule[block-1] = "Spare";
+    free[block-1] = true;
+}

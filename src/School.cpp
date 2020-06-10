@@ -534,7 +534,7 @@ void School::findCourse(string in, int action){ //find courses based on the cour
             classes[decision-1]->toString(); //directly calls toString() function for course
         } else if (decision != 0 && action == 2){ //delete
             this->deleteCourse(decision);
-        } else if (decision != 0 && action == 3) { //add student(s) to course
+        } else if (decision != 0 && action == 3) { //add a student to course
             this->addStudents(decision);
         } else if (decision != 0 && action == 4) { //remove student from course
             this->removeStudent(decision);
@@ -627,10 +627,35 @@ void School::createCourse(){
 
 void School::addStudents(int course){
     course--;
+    bool found = this->findStudents(classes[course]->getCourseBlock());
+    if(found){
+        int personNum = 0;
+        cout << "Select a student (enter \"0\" to cancel): ";
+        cin >> personNum;
+        Student * tempStudent = dynamic_cast<Student*>(people[personNum - 1 + teachers]);
+        classes[course]->addStudent(*tempStudent);
+        people[personNum - 1 + teachers]->changeAvailability(classes[course]->getCourseBlock());
+        string courseInfo = classes[course]->getCourseSubject() + " (" + classes[course]->getCourseCode() + ")\nRoom: " + to_string(classes[course]->getRoomNumber());
+        tempStudent->addCourse(courseInfo, classes[course]->getCourseBlock());
+        cout << endl;
+        cout << "Student added to course" << endl;
+        cout << endl;
+    }
 }
 
 void School::removeStudent(int course){
     course--;
+    classes[course]->displayStudents();
+    int stu = 0;
+    cout << "Select a student (enter \"0\" to cancel): ";
+    cin >> stu;
+    if(stu > 0) {
+        stu--;
+        int block = classes[course]->getCourseBlock();
+        classes[course]->removeStudent(stu, block);
+        cout << "Student removed" << endl;
+        cout << endl;
+    }
 }
 
 void School::changeTeacher(int course){
@@ -640,11 +665,12 @@ void School::changeTeacher(int course){
     cout << endl;
     bool found = this->findTeachers(classes[course]->getCourseBlock(), 2);
     if(found) {
+        classes[course]->removeInstructorCourse();
         int decision;
         cout << "Choose a teacher (Type \"0\" to cancel): ";
         cin >> decision;
         if (decision != 0) { //if user did not cancel the process
-            Teacher *tempTeach = dynamic_cast<Teacher *>(people[decision - 1]);
+            Teacher * tempTeach = dynamic_cast<Teacher *>(people[decision - 1]);
             people[decision - 1]->changeAvailability(classes[course]->getCourseBlock());
             classes[course]->setCourseTeacher(*tempTeach);
             string courseInfo = classes[course]->getCourseSubject() + " (" + classes[course]->getCourseCode() + ")\nRoom: " + to_string(classes[course]->getRoomNumber());
@@ -697,13 +723,6 @@ void School::changeCourseTime(int course){
     }
 }
 
-
-
-
-
-
-
-
 void School::deleteCourse(int index){
     string confirmation = "";
     cout << "Are you sure? (Type \"y\" or \"n\")" << endl;
@@ -727,6 +746,7 @@ void School::deleteCourse(int index){
     }
 }
 
+//these find people methods are different from the School::findPeople method since it also takes into account the person's schedule.
 bool School::findTeachers(int block, int caller){
     string desiredTeachable = "";
     cout << "Selecting teacher:" << endl;
@@ -771,19 +791,60 @@ bool School::findTeachers(int block, int caller){
     return done;
 }
 
+bool School::findStudents(int block){
+    string name = "";
+    bool anyFound = false, done  = false;
+    int searchType = 0;
+    string fName = "", lName = "";
+    int counter = 1;
+    do {
+        cout << "Search for a student (enter their first or last name. Enter \"0\" to cancel): ";
+        cin.ignore();
+        getline(cin, name);
+        if (name != "0") {
+            int found = name.find(" ");
 
+            if (found != -1) { //in case the user put in both the first and last name
+                searchType = 1;
+                fName = name.substr(0, found);
+                lName = name.substr(found + 1);
+            }
 
+            for (int i = teachers; i < totalPeople; i++) {
+                if (searchType == 0) {
+                    int found1 = people[i]->getFirstName().find(name);
+                    int found2 = people[i]->getLastName().find(name);
+                    //cout << "Found1: " << found1 << " " << "Found2: " << found2 << endl;
+                    if ((found1 != -1 || found2 != -1) && people[i]->checkAvailability(block)) {
+                        cout << counter << ". " << people[i]->getFirstName() << " " << people[i]->getLastName()
+                             << " (enter \"" << (i - teachers + 1) << "\")" << endl;
+                        anyFound = true;
+                        done = true;
+                        counter++;
+                    }
+                } else {
+                    int found1 = people[i]->getFirstName().find(fName);
+                    int found2 = people[i]->getLastName().find(lName);
+                    //cout << "Found1: " << found1 << " " << "Found2: " << found2 << endl;
+                    if ((found1 != -1 || found2 != -1) && people[i]->checkAvailability(block)) {
+                        cout << counter << ". " << people[i]->getFirstName() << " " << people[i]->getLastName()
+                             << " (enter \"" << (i - teachers + 1) << "\")" << endl;
+                        anyFound = true;
+                        done = true;
+                        counter++;
+                    }
+                }
+            }
 
-
-
-
-
-
-
-
-
-
-
+            if(!anyFound){
+                cout << "No students who are free during this block match your search" << endl;
+            }
+        } else {
+            anyFound = true;
+        }
+    } while (!anyFound);
+    return done;
+}
 
 string School::toString(){
     int counter = 0; //this makes sure the elements for schoolStudents[] starts at zero

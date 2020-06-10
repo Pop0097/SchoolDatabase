@@ -5,9 +5,9 @@
 #include "Classes.h"
 
 Course::Course(){ //makes a course with ten students and one teacher
-    studentNumber = 10;
-    students = new Student*[10];
-    for(int i = 0; i < 10; i++){
+    studentNumber = 2;
+    students = new Student*[2];
+    for(int i = 0; i < 2; i++){
         students[i] = new Student();
     }
     instructor = new Teacher();
@@ -18,9 +18,9 @@ Course::Course(){ //makes a course with ten students and one teacher
 }
 
 Course::Course(int block, string sub, string code, int room){
-    studentNumber = 10;
-    students = new Student*[10];
-    for(int i = 0; i < 10; i++){
+    studentNumber = 2;
+    students = new Student*[2];
+    for(int i = 0; i < 2; i++){
         students[i] = new Student();
     }
     instructor = new Teacher();
@@ -31,9 +31,9 @@ Course::Course(int block, string sub, string code, int room){
 }
 
 Course::Course(int block, string sub, string code, int room, Teacher& teach){
-    studentNumber = 10;
-    students = new Student*[10];
-    for(int i = 0; i < 10; i++){
+    studentNumber = 2;
+    students = new Student*[2];
+    for(int i = 0; i < 2; i++){
         students[i] = new Student();
     }
     instructor = &teach;
@@ -81,13 +81,54 @@ void Course::setCourseTeacher(Teacher& teach){
 void Course::setRoomNumber(int num){
     roomNumber = num;
 }
+void Course::displayStudents(){
+    for(int i = 0; i < studentNumber; i++){
+        cout << (i+1) << ". " << students[i]->getFirstName() << " " << students[i]->getLastName()  << endl;
+    }
+}
+
+void Course::removeInstructorCourse(){
+    int block = this->getCourseBlock();
+    instructor->removeCourse(block);
+}
+
+void Course::removeStudent(int stu, int block){
+    students[stu]->removeCourse(block);
+    Student ** tempArray = students;
+    studentNumber--;
+    students = new Student * [studentNumber];
+    for(int i = 0; i < studentNumber; i++){
+        if(i < stu){
+            students[i] = tempArray[i];
+        } else if(i > stu){
+            students[i] = tempArray[i+1];
+        } else{
+            cout << i << " Student removed" << endl;
+        }
+    }
+    this->toString();
+}
+
+void Course::addStudent(Student& stu){
+    Student ** tempArray = students;
+    studentNumber++;
+    students = new Student * [studentNumber];
+    for(int i = 0; i < studentNumber; i++){
+        if(i < studentNumber - 1){
+            students[i] = tempArray[i];
+        } else {
+            students[i] = &stu;
+        }
+    }
+    this->toString();
+}
 
 string Course::toString(){
     cout << "Course: " << subject << " (" << courseCode << ")" <<  endl;
     cout << "Block: " << courseBlock << endl;
     cout << "Room: " << roomNumber << endl;
     cout << "Teacher: " << instructor->getFirstName() << " " << instructor->getLastName() << "; (Employee ID: " << instructor->getEmployeeId() << ")" << endl;
-    cout << "Students: " << endl;
+    cout << "Students: " << studentNumber << endl;
     int counter = 1;
     for(int i = 0; i < studentNumber; i++){
         cout << counter << ". " << students[i]->getFirstName() << " " << students[i]->getLastName() << endl;

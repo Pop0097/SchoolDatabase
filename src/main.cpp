@@ -213,12 +213,12 @@ void adminSession(School &sc, int userNumber){
             sc.findCourse(input, action);
         } else if(choice == 16){ //edit course
             choice = 0;
-            cout << "Would you like to:\n1. Add student(s) to a course (Type \"1\") \n2. Remove a student from a course (Type \"2\") \n3. Change the teacher of a course (Type \"3\") \n4. Change the time/room of a course (Type \"4\")" << endl;
+            cout << "Would you like to:\n1. Add a student to a course (Type \"1\") \n2. Remove a student from a course (Type \"2\") \n3. Change the teacher of a course (Type \"3\") \n4. Change the time/room of a course (Type \"4\")" << endl;
             cin >> choice;
             cout << "Which course would you like to edit? (search for course by entering course code)" << endl;
             cin.ignore();
             getline(cin, input);
-            if(choice == 1){ //add student(s) to course
+            if(choice == 1){ //add a student to course
                 action = 3;
             } else if(choice == 2){ //remove a student
                 action = 4;

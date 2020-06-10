@@ -93,6 +93,8 @@ public:
     void addLate();
     void addAbsence();
     bool isValidId(string) const;
+    void removeCourse(int);
+    void addCourse(string, int);
     string toString() const;
 };
 
@@ -129,6 +131,7 @@ public:
     void setUsername(string);
     void setPassword(string);
     void addCourse(string, int);
+    void removeCourse(int);
 };
 
 #endif
@@ -160,7 +163,10 @@ public:
     void setCourseTeacher(Teacher&);
     void setRoomNumber(int);
     void displayTeacher();
-
+    void displayStudents();
+    void removeInstructorCourse();
+    void removeStudent(int, int);
+    void addStudent(Student&);
     string toString();
 };
 
@@ -200,6 +206,7 @@ public:
     void changeTeacher(int);
     void changeCourseTime(int);
     bool findTeachers(int, int);
+    bool findStudents(int);
     string toString();
 };
 

@@ -119,3 +119,13 @@ bool Student::isValidId(string n) const{
     }
     return valid;
 }
+
+void Student::removeCourse(int block){
+    schedule[block-1] = "Spare";
+    free[block-1] = true;
+}
+
+void Student::addCourse(string courseInfo, int block){
+    schedule[block-1] = courseInfo;
+    this->toString();
+}
