@@ -12,8 +12,7 @@ School::School(int t, int s, int a, int c){
     for(int i = 0; i < totalPeople; i++){ //instatiates all objects in people array
         if(i < t){ //firsts makes teachers
             people[i] = new Teacher();
-        }
-        else{ //makes students
+        } else{ //makes students
             people[i] = new Student();
         }
     }
@@ -39,23 +38,10 @@ int School::adminLogin(string uname, string password){
 
     delete tempAdmin;
 
-
-
-
-
-
-    /* Make this section more efficient by just using adminArray. No need to use tempArray */
-
-
-
-
-
-
-    Admin ** temporaryArray = adminArray;
     string tempName = "";
     for(int i = 0; i < administrators; i++){ //checks all administrators
-        if(temporaryArray[i]->getUsername() == uname && temporaryArray[i]->getPassword() == encrypt_pass){ //checks if inputted credentials match that of one admin
-            tempName = temporaryArray[i]->getName(); //gets admin name
+        if(adminArray[i]->getUsername() == uname && adminArray[i]->getPassword() == encrypt_pass){ //checks if inputted credentials match that of one admin
+            tempName = adminArray[i]->getName(); //gets admin name
             userNumber = i+1;
             valid = true;
         }
@@ -69,8 +55,7 @@ int School::adminLogin(string uname, string password){
         cout << endl;
         cout << endl;
         return userNumber;
-    }
-    else{
+    } else{
         cout << "Credentials are incorrect. Please try again" << endl;
         cout << endl;
         return -1;
@@ -86,9 +71,11 @@ int School::teacherLogin(string uname, string password){
 
     for(int i = 0; i < teachers; i++){ //Looks through all teachers
         Teacher * tempTeach = dynamic_cast<Teacher*>(people[i]); //downcasts people array element to access Teacher methods
-        if(tempTeach->getUsername() == uname && tempTeach->getPassword() == encrypt_pass) { //checks if inputted credentials match that of one teacher
-            valid = true;
-            userNumber = i+1;
+        if(tempTeach){ //checks if downcasting worked so program does not crash
+            if(tempTeach->getUsername() == uname && tempTeach->getPassword() == encrypt_pass) { //checks if inputted credentials match that of one teacher
+                valid = true;
+                userNumber = i+1;
+            }
         }
     }
 
@@ -100,8 +87,7 @@ int School::teacherLogin(string uname, string password){
         cout << endl;
         cout << endl;
         return userNumber;
-    }
-    else{
+    } else{
         cout << "Credentials are incorrect. Please try again" << endl;
         cout << endl;
         return -1;
@@ -143,8 +129,7 @@ int School::findPeople(string n, int object, int action, int userNumber){ //func
                 }
             }
         }
-    }
-    else if (object == 2){ //searching for students
+    } else if (object == 2){ //searching for students
         for(int i = teachers; i < totalPeople; i++){ //goes through all students and prints out teachers that match search results
             if(searchType == 0){ //if either first or last name was entered
                 int found1 = people[i]->getFirstName().find(n);
@@ -189,10 +174,14 @@ int School::findPeople(string n, int object, int action, int userNumber){ //func
             userNumber = this->deletePerson(decision, object, userNumber);
         } else if(decision != 0 && action == 4) { //mark student late
             Student * tempStudent = dynamic_cast<Student*>(people[decision-1+teachers]);
-            tempStudent->addLate();
+            if(tempStudent){ //checks if downcasting worked so program does not crash
+                tempStudent->addLate();
+            }
         } else if(decision != 0 && action == 5) { //mark student absent
             Student * tempStudent = dynamic_cast<Student*>(people[decision-1+teachers]);
-            tempStudent->addAbsence();
+            if(tempStudent){ //checks if downcasting worked so program does not crash
+                tempStudent->addAbsence();
+            }
         }
     } else { //if no results were found
         cout << "No entries matched your search." << endl;
@@ -205,12 +194,10 @@ void School::displayPerson(int personNumber, int object) { //method displays the
     if(object == 1){ //teacher
         personNumber--; //changes value so it can be used to navigate people array
         people[personNumber]->toString();
-    }
-    else if (object == 2){ //student
+    } else if (object == 2){ //student
         personNumber = teachers + personNumber - 1; //changes value so it can be used to navigate people array
         people[personNumber]->toString();
-    }
-    else{ //administrator
+    } else{ //administrator
         personNumber--; //changes value so it can be used to navigate adminArray array
         adminArray[personNumber]->toString();
     }
@@ -220,8 +207,7 @@ void School::editPerson(int personNumber, int object) { //method edits person: "
     if(object == 1 || object == 2){ //if action is being done on a teacher or a student
         if(object == 1){ //teacher
             personNumber--; //changes value so it can be used to navigate people array
-        }
-        else{ //student
+        } else{ //student
             personNumber = teachers + personNumber - 1; //changes value so it can be used to navigate people array
         }
 
@@ -253,7 +239,8 @@ void School::editPerson(int personNumber, int object) { //method edits person: "
 
             //sets values in methods that are unique to Teacher
             Teacher * temporary = dynamic_cast <Teacher*>(people[personNumber]); //downcasting used on Person pointer to access Teacher methods
-            if(temporary){ //checks if values are 0 since it is used in this program to signify "no change"
+            if(temporary){ //checks if downcasting worked so program does not crash
+                // checks if values are 0 since it is used in this program to signify "no change"
                 if(teachables != "0"){
                     temporary->setTeachables(teachables);
                 }
@@ -277,7 +264,8 @@ void School::editPerson(int personNumber, int object) { //method edits person: "
 
             //sets values in methods that are unique to Student
             Student * temporary = dynamic_cast <Student*>(people[personNumber]); //downcasting used on Person pointer to access Student methods
-            if(temporary){ //checks if values are 0 since it is used in this program to signify "no change"
+            if(temporary){ //checks if downcasting worked so program does not crash
+                // checks if values are 0 since it is used in this program to signify "no change"
                 if(grade != "0"){
                     temporary->setGrade(grade);
                 }
@@ -369,8 +357,7 @@ void School::createPerson(int object) { //method creates person: "Create" in CRU
             if (firstName == "0" && lastName == "0" && address == "0" && teachables == "0" && employeeId == "0" && username == "0" && password == "0") {//checks if user wishes to cancel the process
                 totalPeople--;
                 cout << "Creation process canceled" << endl;
-            }
-            else {
+            } else {
                 teachers++;
                 Teacher * tempPerson = new Teacher(firstName, lastName, address, teachables, employeeId, username, password); //creates new Teacher object with inputted information
                 people = new Person *[totalPeople]; //re-declares the people array to include the new teacher
@@ -388,8 +375,7 @@ void School::createPerson(int object) { //method creates person: "Create" in CRU
                 cout << "New Teacher: " << endl;
                 people[teachers - 1]->toString();
             }
-        }
-        else if (object == 2) { //sets values in methods that are unique to Student
+        } else if (object == 2) { //sets values in methods that are unique to Student
             string grade = "", studentId = "";
             cout << "Grade: ";
             cin >> grade;
@@ -398,8 +384,7 @@ void School::createPerson(int object) { //method creates person: "Create" in CRU
             if (firstName == "0" && lastName == "0" && address == "0" && grade == "0" && studentId == "0") {//checks if user wishes to cancel the process
                 totalPeople--;
                 cout << "Creation process canceled" << endl;
-            }
-            else {
+            } else {
                 students++;
                 Student * tempPerson = new Student(firstName, lastName, address, grade, studentId); //creates new Student object with inputted information
                 people = new Person *[totalPeople]; //re-declares the people array to include the new student
@@ -435,8 +420,7 @@ void School::createPerson(int object) { //method creates person: "Create" in CRU
         if(name == "0" && username == "0" && password == "0"){ //checks if user canceled the process
             cout << "Process canceled." << endl;
             cout << endl;
-        }
-        else{
+        } else{
             administrators++;
             Admin * newAdmin = new Admin(name, username, password);
             //sets new and arrays
@@ -480,8 +464,7 @@ int School::deletePerson(int personNumber, int object, int userNumber) { //metho
                 for(int i = 0; i < totalPeople; i++){ //re-initializes people array to exclude deleted teacher
                     if(i < personNumber){
                         people[i] = temporaryArray[i];
-                    }
-                    else{
+                    } else {
                         people[i] = temporaryArray[i+1];
                     }
                 }
@@ -494,8 +477,7 @@ int School::deletePerson(int personNumber, int object, int userNumber) { //metho
                 for(int i = 0; i < totalPeople; i++){ //re-initializes people array to exclude deleted student
                     if(i < personNumber){
                         people[i] = temporaryArray[i];
-                    }
-                    else{
+                    } else{
                         people[i] = temporaryArray[i+1];
                     }
                 }
@@ -510,8 +492,7 @@ int School::deletePerson(int personNumber, int object, int userNumber) { //metho
             for(int i = 0; i < administrators; i++){ //re-initializes people array to exclude deleted admin
                 if(i < personNumber){
                     adminArray[i] = temporaryArray[i];
-                }
-                else{
+                } else{
                     adminArray[i] = temporaryArray[i+1];
                 }
             }
@@ -532,7 +513,9 @@ void School::findCourse(string in, int action){ //find courses based on the cour
         found = classes[i]->getCourseCode().find(in);
         if(found != -1){ //if course code matches input
             anyFound = true;
-            cout << counter << ". " << classes[i]->getCourseSubject() << " (Code: " << classes[i]->getCourseCode() << "); Block: " << classes[i]->getCourseBlock() << "; Room #: " << classes[i]->getRoomNumber() << "; Teacher: " << classes[i]->getCourseTeacher() << " (Type \"" << (i+1) << "\")" << endl;
+            cout << counter << ". " << classes[i]->getCourseSubject() << " (Code: " << classes[i]->getCourseCode()
+                << "); Block: " << classes[i]->getCourseBlock() << "; Room #: " << classes[i]->getRoomNumber() << "; Teacher: "
+                << classes[i]->getCourseTeacher() << " (Type \"" << (i+1) << "\")" << endl;
             counter++;
         }
     }
@@ -613,24 +596,26 @@ void School::createCourse(){ //method creates course: "Create" in CRUD
             classes = new Course*[classNumber]; //re-declares classes array
 
             tempTeach = dynamic_cast<Teacher*>(people[decision-1]); //downcasts Person pointer to teacher
-            people[decision-1]->changeAvailability(block); //checks if teacher is available during block
+            if(tempTeach){ //checks if downcasting was successful so program does not crash
+                people[decision-1]->changeAvailability(block); //checks if teacher is available during block
 
-            Course * tempCourse = new Course(block, subject, code, room, *tempTeach); //creates new course
+                Course * tempCourse = new Course(block, subject, code, room, *tempTeach); //creates new course
 
-            for(int i = 0; i < classNumber; i++){ //re-initializes classes array to include new course
-                if(i < classNumber - 1){
-                    classes[i] = tempArray[i];
-                } else{
-                    classes[i] = tempCourse;
-                    //adds course to teacher's schedule
-                    string courseInfo = tempCourse->getCourseSubject() + " (" + tempCourse->getCourseCode() + ")\nRoom: " + to_string(tempCourse->getRoomNumber());
-                    tempTeach->addCourse(courseInfo, block);
+                for(int i = 0; i < classNumber; i++){ //re-initializes classes array to include new course
+                    if(i < classNumber - 1){
+                        classes[i] = tempArray[i];
+                    } else{
+                        classes[i] = tempCourse;
+                        //adds course to teacher's schedule
+                        string courseInfo = tempCourse->getCourseSubject() + " (" + tempCourse->getCourseCode() + ")\nRoom: " + to_string(tempCourse->getRoomNumber());
+                        tempTeach->addCourse(courseInfo, block);
+                    }
                 }
+                cout << "Course created. " << endl;
+                cout << endl;
             }
-            cout << "Course created. " << endl;
-            cout << endl;
+            delete [] tempArray;
         }
-        delete [] tempArray;
     }
 }
 
@@ -644,14 +629,16 @@ void School::addStudents(int course){ //adds students to course
         cout << "Select a student (enter \"0\" to cancel): ";
         cin >> personNum; //user selects a student
         Student * tempStudent = dynamic_cast<Student*>(people[personNum - 1 + teachers]);
-        //updates student information to reflect schedule change
-        classes[course]->addStudent(*tempStudent);
-        people[personNum - 1 + teachers]->changeAvailability(classes[course]->getCourseBlock());
-        string courseInfo = classes[course]->getCourseSubject() + " (" + classes[course]->getCourseCode() + ")\nRoom: " + to_string(classes[course]->getRoomNumber());
-        tempStudent->addCourse(courseInfo, classes[course]->getCourseBlock());
-        cout << endl;
-        cout << "Student added to course" << endl;
-        cout << endl;
+        if(tempStudent){ //checks if downcasting worked so program does not crash
+            //updates student information to reflect schedule change
+            classes[course]->addStudent(*tempStudent);
+            people[personNum - 1 + teachers]->changeAvailability(classes[course]->getCourseBlock());
+            string courseInfo = classes[course]->getCourseSubject() + " (" + classes[course]->getCourseCode() + ")\nRoom: " + to_string(classes[course]->getRoomNumber());
+            tempStudent->addCourse(courseInfo, classes[course]->getCourseBlock());
+            cout << endl;
+            cout << "Student added to course" << endl;
+            cout << endl;
+        }
     }
 }
 
@@ -685,18 +672,19 @@ void School::changeTeacher(int course){ //changes teacher of course
         if (decision != 0) { //if user did not cancel the process
             //program updates teachers' schedule
             Teacher * tempTeach = dynamic_cast<Teacher *>(people[decision - 1]);
-            people[decision - 1]->changeAvailability(classes[course]->getCourseBlock());
-            classes[course]->setCourseTeacher(*tempTeach);
-            string courseInfo = classes[course]->getCourseSubject() + " (" + classes[course]->getCourseCode() + ")\nRoom: " + to_string(classes[course]->getRoomNumber());
-            tempTeach->addCourse(courseInfo, classes[course]->getCourseBlock());
+            if(tempTeach){ //checks if downcasting worked so program does not crash
+                people[decision - 1]->changeAvailability(classes[course]->getCourseBlock());
+                classes[course]->setCourseTeacher(*tempTeach);
+                string courseInfo = classes[course]->getCourseSubject() + " (" + classes[course]->getCourseCode() + ")\nRoom: " + to_string(classes[course]->getRoomNumber());
+                tempTeach->addCourse(courseInfo, classes[course]->getCourseBlock());
 
-            cout << endl;
-            cout << "Course updated" << endl;
-            cout << endl;
-            classes[course]->toString();
+                cout << endl;
+                cout << "Course updated" << endl;
+                cout << endl;
+                classes[course]->toString();
+            }
         }
     }
-
 }
 
 void School::deleteCourse(int index){ //method deletes course: "Delete" in CRUD
@@ -738,11 +726,14 @@ bool School::findTeachers(int block, int caller){ //finds teacher
         getline(cin, desiredTeachable);
         for(int i = 0; i < teachers; i++){ //lists teachers that match search results
             tempTeach = dynamic_cast<Teacher*>(people[i]);
-            if(tempTeach->getTeachables().find(desiredTeachable) != -1 && people[i]->checkAvailability(block) == true){ //if found and teacher is free in  block
-                anyFound = true;
-                cout << counter << ". " << tempTeach->getFirstName() << " " << tempTeach->getLastName() << " (Employee ID: " << tempTeach->getEmployeeId() << "); Teachables: " << tempTeach->getTeachables() << " (Type \"" << (i+1) << "\")" <<  endl;
-                counter++;
-                done = true;
+            if(tempTeach){ //checks if downcasting was successful so program does not crash
+                if(tempTeach->getTeachables().find(desiredTeachable) != -1 && people[i]->checkAvailability(block) == true){ //if found and teacher is free in  block
+                    anyFound = true;
+                    cout << counter << ". " << tempTeach->getFirstName() << " " << tempTeach->getLastName() << " (Employee ID: " << tempTeach->getEmployeeId()
+                    << "); Teachables: " << tempTeach->getTeachables() << " (Type \"" << (i+1) << "\")" <<  endl;
+                    counter++;
+                    done = true;
+                }
             }
         }
         if(!anyFound){ //if none found
@@ -819,6 +810,34 @@ bool School::findStudents(int block){ //finds student
         }
     } while (!anyFound); //find student loop ends
     return done;
+}
+
+void School::displayTeacherCourses(int userNumber) { //Displays courses for a specific teacher (when teacher session is running)
+    userNumber--; //changes value so array can be navigated
+    Teacher * tempTeach = dynamic_cast<Teacher*>(people[userNumber]);
+    if(tempTeach) { //checks if downcasting was successful to prevent program from crashing
+        cout << "Your courses:" << endl;
+        string fname = people[userNumber]->getFirstName();
+        string lname = people[userNumber]->getLastName();
+        string instructorId = tempTeach->getEmployeeId();
+        for(int i = 0; i < classNumber; i++){ //program checks all courses that have teacher as instructor
+            if(classes[i]->getInstructorFirstName() == fname && classes[i]->getInstructorLastName() == lname && classes[i]->getInstructorId() == instructorId){ //checks three attributes for accurate results
+                cout << "---------------------------------------------------------------------------------------------" << endl;
+                cout << "(Type " << (i+1) << ")" << endl;
+                cout << "Block " << classes[i]->getCourseBlock() << endl;
+                cout << classes[i]->getCourseSubject() + " (" + classes[i]->getCourseCode() + ")\nRoom: " + to_string(classes[i]->getRoomNumber()) << endl;
+            }
+        }
+        int decision = 0;
+        cout << endl;
+        cout << "Choose a course to view:";
+        cin >> decision; //user chooses a course to view
+
+        //displays course
+        cout << endl;
+        cout << "Your course:" << endl;
+        classes[decision-1]->toString();
+    }
 }
 
 string School::toString(){

@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 #ifndef ADMIN_H
 #define ADMIN_H
 
@@ -37,6 +36,7 @@ public:
 };
 
 #endif
+
 
 #ifndef PERSON_H
 #define PERSON_H
@@ -109,6 +109,7 @@ public:
 
 #endif
 
+
 #ifndef TEACHER_H
 #define TEACHER_H
 
@@ -174,9 +175,10 @@ public:
     int getCourseBlock();
     string getCourseTeacher();
     int getRoomNumber();
-    void setCourseBlock(int);
+    string getInstructorFirstName();
+    string getInstructorLastName();
+    string getInstructorId();
     void setCourseTeacher(Teacher&);
-    void setRoomNumber(int);
     void removeInstructorCourse(); //removes the instructor of the course
     void removeStudent(int, int);
     void addStudent(Student&);
@@ -223,6 +225,7 @@ public:
     void changeTeacher(int);
     bool findTeachers(int, int);
     bool findStudents(int);
+    void displayTeacherCourses(int);
     /* Display */
     string toString();
 };

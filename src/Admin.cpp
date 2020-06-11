@@ -17,16 +17,24 @@ Admin::Admin(string u, string password){
 }
 
 Admin::Admin(string n, string u, string password){
+    //for all fields it checks if the attribute is 0 (Used in UI to signal "cancel"). If it is, then the default is used.
+    if(n != "0"){
+        name = n;
+    } else {
+        name = "d_name";
+    }
 
+    if(u != "0"){
+        username = u;
+    } else {
+        username = "d_uname";
+    }
 
-
-    /* Make sure if User enters 0 then the field is not set!!!! */
-
-
-
-    name = n;
-    username = u;
-    encrypted_password = adminEncrypt(password, "Axc4RDx3osYg"); //encrypts password
+    if(password != "0") {
+        encrypted_password = adminEncrypt(password, "Axc4RDx3osYg"); //encrypts password
+    } else {
+        encrypted_password = adminEncrypt("pass", "Axc4RDx3osYg"); //encrypts password
+    }
 }
 
 Admin::~Admin(){}

@@ -25,6 +25,7 @@ Teacher::Teacher(string u, string pass) : Person::Person(){
 }
 
 Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Person(f, l, a) {
+    //for all fields it checks if the attribute is 0 (Used in UI to signal "cancel"). If it is, then the default is used.
     if(t != "0"){
         teachables = t;
     }

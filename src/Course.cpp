@@ -66,16 +66,20 @@ int Course::getRoomNumber(){
     return roomNumber;
 }
 
-void Course::setCourseBlock(int block){
-    courseBlock = block;
+string Course::getInstructorFirstName() {
+    return instructor->getFirstName();
+}
+
+string Course::getInstructorLastName() {
+    return instructor->getLastName();
+}
+
+string Course::getInstructorId() {
+    return instructor->getEmployeeId();
 }
 
 void Course::setCourseTeacher(Teacher& teach){
     instructor = &teach;
-}
-
-void Course::setRoomNumber(int num){
-    roomNumber = num;
 }
 
 void Course::removeInstructorCourse(){

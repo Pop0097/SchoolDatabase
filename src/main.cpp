@@ -21,7 +21,7 @@ int main() {
             cin >> in;
 
             if(in == 0){ //checks if user wanted to cancel
-               programKill = true;
+                programKill = true;
             }
 
             if (in == 1 || in == 2) { //if user did not want to cancel
@@ -289,7 +289,7 @@ void teacherSession(School &sc, int userNumber){
             action = 5;
             userNumber = sc.findPeople(input, object, action, userNumber); //method called to find desired person
         } else if(choice == 4){ //view course information
-            //add code later
+            sc.displayTeacherCourses(userNumber);
         } else if(choice == 5){ //display curernt user information
             object = 1;
             sc.displayPerson(userNumber, object); //calls method to display user information

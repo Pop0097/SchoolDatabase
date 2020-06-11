@@ -59,7 +59,7 @@ void Person::setFirstName(string n){
 }
 
 void Person::setLastName(string n){
-   lastName = n;
+    lastName = n;
 }
 
 void Person::setAddress(string a){
