@@ -7,28 +7,32 @@
 Admin::Admin(){
     name = "d_name";
     username = "d_uname";
-    encrypted_password = adminEncrypt("pass", "Axc4RDx3osYg");
+    encrypted_password = adminEncrypt("pass", "Axc4RDx3osYg"); //encrypts password
 }
 
 Admin::Admin(string u, string password){
     name = "d_name";
     username = u;
-    encrypted_password = adminEncrypt(password, "Axc4RDx3osYg");
+    encrypted_password = adminEncrypt(password, "Axc4RDx3osYg"); //encrypts password
 }
 
 Admin::Admin(string n, string u, string password){
+
+
+
+    /* Make sure if User enters 0 then the field is not set!!!! */
+
+
+
     name = n;
     username = u;
-    encrypted_password = adminEncrypt(password, "Axc4RDx3osYg");
+    encrypted_password = adminEncrypt(password, "Axc4RDx3osYg"); //encrypts password
 }
 
-Admin::~Admin(){
-    //cout << "deleted" << endl;
-}
+Admin::~Admin(){}
 
-string Admin::adminEncrypt(string password, string key){
+string Admin::adminEncrypt(string password, string key){ //method encrypts the password
     //ensures the key is (at a minimum) as long as the message
-    //cout << "called" << endl;
     string tmp(key);
     while(key.size() < password.size()){
         key += tmp;
@@ -41,7 +45,7 @@ string Admin::adminEncrypt(string password, string key){
     return password;
 }
 
-string Admin::adminDecrypt(string entry, string key){
+string Admin::adminDecrypt(string entry, string key){ //method decrpyts the password
     return adminEncrypt(entry, key);
 }
 
@@ -57,14 +61,6 @@ string Admin::getPassword(){
     return encrypted_password;
 }
 
-string Admin::toString(){
-    cout << "Administrator account information:" << endl;
-    cout << "Name: " <<  name << endl;
-    cout << "Username: " << username << endl;
-    cout << endl;
-    return "";
-}
-
 void Admin::setName(string n){
     name = n;
 }
@@ -74,5 +70,13 @@ void Admin::setUsername(string u){
 }
 
 void Admin::setPassword(string pass){
-    encrypted_password = adminEncrypt(pass, "Axc4RDx3osYg");
+    encrypted_password = adminEncrypt(pass, "Axc4RDx3osYg"); //encrypts password
+}
+
+string Admin::toString(){
+    cout << "Administrator account information:" << endl;
+    cout << "Name: " <<  name << endl;
+    cout << "Username: " << username << endl;
+    cout << endl;
+    return "";
 }

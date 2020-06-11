@@ -22,15 +22,18 @@ public:
     Admin(string, string);
     Admin(string, string, string);
     ~Admin();
+    /* Code used for password entry */
     string adminEncrypt(string, string);
     string adminDecrypt(string, string);
+    /* Getters and setters */
     string getName();
     string getUsername();
     string getPassword();
-    string toString();
     void setName(string);
     void setUsername(string);
     void setPassword(string);
+    /* Display */
+    string toString();
 };
 
 #endif
@@ -44,17 +47,19 @@ protected:
     string firstName;
     string lastName;
     string address;
-    bool free[8];
+    bool free[8]; //used to see if person is free during a block
 public:
     Person();
     Person(string, string, string);
     virtual ~Person(); //a virtual function is used for destructors so function overriding can take place. The destructors in the child classes are also virtual
+    /* Getters and setters */
     string getFirstName();
     string getLastName();
     string getAddress();
     void setFirstName(string);
     void setLastName(string);
     void setAddress(string);
+    /* Methods used to set schedule for people */
     bool checkAvailability(int);
     void changeAvailability(int);
     //pure virtual functions are declared in base class and will be overridden via function overriding in the child classes
@@ -72,6 +77,7 @@ public:
 #ifndef STUDENT_H
 #define STUDENT_H
 
+//child class of Person
 class Student : public Person
 {
 private:
@@ -79,11 +85,12 @@ private:
     string studentId;
     int numLates;
     int numAbsences;
-    string schedule[8];
+    string schedule[8]; //contains student's schedule
 public:
     Student();
     Student(string, string, string, string, string); //no need for other constructors as user is forced to initialize all values
     virtual ~Student();
+    /* Getters and setters */
     int getGrade();
     string getStudentId();
     int getNumLates();
@@ -93,8 +100,10 @@ public:
     void addLate();
     void addAbsence();
     bool isValidId(string) const;
+    /* Used to modify schedule */
     void removeCourse(int);
     void addCourse(string, int);
+    /* Display */
     string toString() const;
 };
 
@@ -103,6 +112,7 @@ public:
 #ifndef TEACHER_H
 #define TEACHER_H
 
+//Child class of Person
 class Teacher : public Person
 {
 private:
@@ -111,27 +121,31 @@ private:
     int teacherNumber;
     string t_username;
     string t_encrypted_password;
-    string schedule[8];
+    string schedule[8]; //contains teacher's schedule
 public:
     Teacher();
     Teacher(string, string);
     Teacher(string, string, string, string, string);
     Teacher(string, string, string, string, string, string, string);
     virtual ~Teacher();
+    /* Getters and setters */
     string getTeachables();
     string getEmployeeId();
-    void setTeachables(string);
-    void setEmployeeId(string);
-    bool isValidId(string) const;
-    string toString() const;
-    string teacherEncrypt(string, string);
-    string teacherDecrypt(string, string);
     string getUsername();
     string getPassword();
     void setUsername(string);
     void setPassword(string);
+    void setTeachables(string);
+    void setEmployeeId(string);
+    bool isValidId(string) const;
+    /* Code used for password entry */
+    string teacherEncrypt(string, string);
+    string teacherDecrypt(string, string);
+    /* Used to modify schedule */
     void addCourse(string, int);
     void removeCourse(int);
+    /* Display */
+    string toString() const;
 };
 
 #endif
@@ -142,18 +156,19 @@ public:
 
 class Course{
 private:
-    Student ** students;
-    Teacher * instructor;
+    Student ** students; //array of all students in the course
+    Teacher * instructor; //teacher of the course
     int courseBlock; //1 = 1A; 2 = 1B; 3 = 1C; 4 = 1D; 5 = 2A; 6 = 2B; 7= 2C; 8 = 2D
     string subject;
     string courseCode;
     int roomNumber;
-    int studentNumber;
+    int studentNumber; //number of students in the course
 public:
     Course();
     Course(int, string, string, int);
     Course(int, string, string, int, Teacher&);
     ~Course();
+    /* Getters and setters */
     string getCourseSubject();
     string getCourseCode();
     int getCourseBlock();
@@ -162,11 +177,12 @@ public:
     void setCourseBlock(int);
     void setCourseTeacher(Teacher&);
     void setRoomNumber(int);
-    void displayTeacher();
-    void displayStudents();
-    void removeInstructorCourse();
+    void removeInstructorCourse(); //removes the instructor of the course
     void removeStudent(int, int);
     void addStudent(Student&);
+    /* Display */
+    void displayTeacher();
+    void displayStudents();
     string toString();
 };
 
@@ -176,16 +192,17 @@ public:
 #ifndef SCHOOL_H
 #define SCHOOL_H
 
+//Class that is used to perform all operations (CRUD) for all classes.
 class School{
 private:
-    Person ** people;
-    Admin ** adminArray;
-    Course ** classes;
-    int classNumber;
-    int teachers;
-    int students;
-    int administrators;
-    int totalPeople;
+    Person ** people; //array stores all teachers and students in the school
+    Admin ** adminArray; //array stores all administrators
+    Course ** classes; //array stores all courses in school
+    int classNumber; //number of course objects in school
+    int teachers; //number of teachers in school
+    int students; //number of students in school
+    int administrators; //number of administrators for school
+    int totalPeople; //total number of People (teachers + students) in school
 public:
     School(int, int, int, int);
     //Methods for signing in
@@ -197,16 +214,16 @@ public:
     void displayPerson(int, int);
     void createPerson(int);
     int deletePerson(int, int, int);
-    //CRUD methods for classes
+    //CRUD methods for courses
     void findCourse(string, int);
     void createCourse();
     void deleteCourse(int);
     void addStudents(int);
     void removeStudent(int);
     void changeTeacher(int);
-    void changeCourseTime(int);
     bool findTeachers(int, int);
     bool findStudents(int);
+    /* Display */
     string toString();
 };
 

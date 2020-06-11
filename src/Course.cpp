@@ -4,7 +4,7 @@
 
 #include "Classes.h"
 
-Course::Course(){ //makes a course with ten students and one teacher
+Course::Course(){ //all constructors add 2 default students to the class upon creation. These students can be removed later.
     studentNumber = 2;
     students = new Student*[2];
     for(int i = 0; i < 2; i++){
@@ -66,10 +66,6 @@ int Course::getRoomNumber(){
     return roomNumber;
 }
 
-void Course::displayTeacher() {
-    cout << instructor->getFirstName() << " " << instructor->getLastName();
-}
-
 void Course::setCourseBlock(int block){
     courseBlock = block;
 }
@@ -81,11 +77,6 @@ void Course::setCourseTeacher(Teacher& teach){
 void Course::setRoomNumber(int num){
     roomNumber = num;
 }
-void Course::displayStudents(){
-    for(int i = 0; i < studentNumber; i++){
-        cout << (i+1) << ". " << students[i]->getFirstName() << " " << students[i]->getLastName()  << endl;
-    }
-}
 
 void Course::removeInstructorCourse(){
     int block = this->getCourseBlock();
@@ -93,34 +84,40 @@ void Course::removeInstructorCourse(){
 }
 
 void Course::removeStudent(int stu, int block){
-    students[stu]->removeCourse(block);
+    students[stu]->removeCourse(block); //removes the course from the student's schedule
     Student ** tempArray = students;
     studentNumber--;
-    students = new Student * [studentNumber];
-    for(int i = 0; i < studentNumber; i++){
+    students = new Student * [studentNumber]; //re-declares the students array
+    for(int i = 0; i < studentNumber; i++){ //re-initializes the elements in the students array, excluding the removed student
         if(i < stu){
             students[i] = tempArray[i];
         } else if(i > stu){
             students[i] = tempArray[i+1];
-        } else{
-            cout << i << " Student removed" << endl;
         }
     }
-    this->toString();
 }
 
 void Course::addStudent(Student& stu){
     Student ** tempArray = students;
     studentNumber++;
-    students = new Student * [studentNumber];
-    for(int i = 0; i < studentNumber; i++){
+    students = new Student * [studentNumber]; //re-declares the students array
+    for(int i = 0; i < studentNumber; i++){ //re-initializes the elements in the students array, including the added student
         if(i < studentNumber - 1){
             students[i] = tempArray[i];
         } else {
             students[i] = &stu;
         }
     }
-    this->toString();
+}
+
+void Course::displayTeacher() {
+    cout << instructor->getFirstName() << " " << instructor->getLastName();
+}
+
+void Course::displayStudents(){ //displays all students in the course
+    for(int i = 0; i < studentNumber; i++){
+        cout << (i+1) << ". " << students[i]->getFirstName() << " " << students[i]->getLastName()  << endl;
+    }
 }
 
 string Course::toString(){

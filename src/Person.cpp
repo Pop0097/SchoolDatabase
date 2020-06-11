@@ -8,12 +8,13 @@ Person::Person(){
     firstName = "Default First Name";
     lastName = "Default Last Name";
     address = "Default Address";
-    for(int i = 0; i < 8; i++){
+    for(int i = 0; i < 8; i++){ //sets all elements to "true" so it shows the person is free
         free[i] = true;
     }
 }
 
 Person::Person(string first, string last, string add){
+    //for all fields it checks if the attribute is 0 (Used in UI to signal "cancel"). If it is, then the default is used.
     if(first != "0"){
         firstName = first;
     }
@@ -65,7 +66,7 @@ void Person::setAddress(string a){
     address = a;
 }
 
-bool Person::checkAvailability(int block) {
+bool Person::checkAvailability(int block) { //checks if person is available during a block
     if(free[block-1] == true){
         return true;
     } else {
@@ -73,7 +74,7 @@ bool Person::checkAvailability(int block) {
     }
 }
 
-void Person::changeAvailability(int block){
+void Person::changeAvailability(int block){ //if person's schedule changes, free array is changed accordingly
     if(free[block-1] == true){
         free[block-1] = false;
     } else{

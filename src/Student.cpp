@@ -88,23 +88,6 @@ void Student::addAbsence() { //this is added via the Teacher class
     numAbsences++;
 }
 
-string Student::toString() const{
-    cout << "Name: " <<  firstName << " " << lastName << endl;
-    cout << "Address: " << address << endl;
-    cout << "Grade: " << grade << endl;
-    cout << "Student ID: " << studentId << endl;
-    cout << "Number of Lates: " << numLates << endl;
-    cout << "Number of Absences: " << numAbsences << endl;
-    cout << "Schedule" << endl;
-    for(int i = 0; i < 8; i++){
-        cout << "-----------------------------" << endl;
-        cout << "Block " << (i+1) << endl;
-        cout << schedule[i] << endl;
-    }
-    cout << endl;
-    return "";
-}
-
 bool Student::isValidId(string n) const{
     bool valid = false;
     if(n.length() == 10){
@@ -127,5 +110,21 @@ void Student::removeCourse(int block){
 
 void Student::addCourse(string courseInfo, int block){
     schedule[block-1] = courseInfo;
-    this->toString();
+}
+
+string Student::toString() const{
+    cout << "Name: " <<  firstName << " " << lastName << endl;
+    cout << "Address: " << address << endl;
+    cout << "Grade: " << grade << endl;
+    cout << "Student ID: " << studentId << endl;
+    cout << "Number of Lates: " << numLates << endl;
+    cout << "Number of Absences: " << numAbsences << endl;
+    cout << "Schedule" << endl;
+    for(int i = 0; i < 8; i++){
+        cout << "-----------------------------" << endl;
+        cout << "Block " << (i+1) << endl;
+        cout << schedule[i] << endl;
+    }
+    cout << endl;
+    return "";
 }

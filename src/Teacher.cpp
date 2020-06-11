@@ -9,7 +9,7 @@ Teacher::Teacher() : Person::Person(){
     employeeId = "Default Employee ID";
     t_username = "d_uname";
     t_encrypted_password = teacherEncrypt("pass", "Slf64kf321daC");
-    for(int i = 0; i < 8; i++){
+    for(int i = 0; i < 8; i++){ //initializes the schedule class to show that the teacher is free all periods
         schedule[i] = "Break";
     }
 }
@@ -18,7 +18,7 @@ Teacher::Teacher(string u, string pass) : Person::Person(){
     teachables = "Default Teachables";
     employeeId = "Default Employee ID";
     t_username = u;
-    t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
+    t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC"); //encrypts password
     for(int i = 0; i < 8; i++){
         schedule[i] = "Break";
     }
@@ -32,6 +32,7 @@ Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Pe
         teachables = "Default Teachables";
     }
     bool valid = isValidId(id); //checks if the given ID is valid
+    //does action depending if id is valid
     if (valid) {
         employeeId = id;
     } else {
@@ -39,7 +40,7 @@ Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Pe
         employeeId = "Default Employee ID";
     }
     t_username = "d_uname";
-    t_encrypted_password = teacherEncrypt("pass", "Slf64kf321daC");
+    t_encrypted_password = teacherEncrypt("pass", "Slf64kf321daC"); //encrypts password
     for(int i = 0; i < 8; i++){
         schedule[i] = "Break";
     }
@@ -60,7 +61,7 @@ Teacher::Teacher(string f, string l, string a, string t, string id, string u, st
         employeeId = "Default Employee ID";
     }
     t_username = u;
-    t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
+    t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC"); //encrypts password
     for(int i = 0; i < 8; i++){
         schedule[i] = "Break";
     }
@@ -74,6 +75,14 @@ string Teacher::getTeachables() {
 
 string Teacher::getEmployeeId(){
     return employeeId;
+}
+
+string Teacher::getUsername(){
+    return t_username;
+}
+
+string Teacher::getPassword(){
+    return t_encrypted_password;
 }
 
 void Teacher::setTeachables(string t) {
@@ -90,19 +99,12 @@ void Teacher::setEmployeeId(string id) {
     }
 }
 
-string Teacher::toString() const{
-    cout << "Name: " << firstName << " " << lastName << endl;
-    cout << "Address: " << address << endl;
-    cout << "Teachables: " << teachables << endl;
-    cout << "Employee ID: " << employeeId << endl;
-    cout << "Schedule: " << endl;
-    for(int i = 0; i < 8; i++){
-        cout << "-----------------------------" << endl;
-        cout << "Block " << (i+1) << endl;
-        cout << schedule[i] << endl;
-    }
-    cout << endl;
-    return "";
+void Teacher::setUsername(string uname){
+    t_username = uname;
+}
+
+void Teacher::setPassword(string pass){
+    t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC"); //encrypts password
 }
 
 bool Teacher::isValidId(string n) const {
@@ -120,7 +122,7 @@ bool Teacher::isValidId(string n) const {
     return valid;
 }
 
-string Teacher::teacherEncrypt(string password, string key){
+string Teacher::teacherEncrypt(string password, string key){ //method encrypts the teacher's password
     //ensures the key is (at a minimum) as long as the message
     string tmp(key);
     while(key.size() < password.size()){
@@ -134,32 +136,30 @@ string Teacher::teacherEncrypt(string password, string key){
     return password;
 }
 
-string Teacher::teacherDecrypt(string entry, string key){
+string Teacher::teacherDecrypt(string entry, string key){ //method used to decrypt the teacher's password
     return teacherEncrypt(entry, key);
 }
 
-
-string Teacher::getUsername(){
-    return t_username;
-}
-
-string Teacher::getPassword(){
-    return t_encrypted_password;
-}
-
-void Teacher::setUsername(string uname){
-    t_username = uname;
-}
-
-void Teacher::setPassword(string pass){
-    t_encrypted_password = teacherEncrypt(pass, "Slf64kf321daC");
-}
-
-void Teacher::addCourse(string c, int block){
+void Teacher::addCourse(string c, int block){ //modifies teacher schedule to add course
     schedule[block-1] = c;
 }
 
-void Teacher::removeCourse(int block){
-    schedule[block-1] = "Spare";
+void Teacher::removeCourse(int block){ //modifies teacher schedule to remove course
+    schedule[block-1] = "Break";
     free[block-1] = true;
+}
+
+string Teacher::toString() const{
+    cout << "Name: " << firstName << " " << lastName << endl;
+    cout << "Address: " << address << endl;
+    cout << "Teachables: " << teachables << endl;
+    cout << "Employee ID: " << employeeId << endl;
+    cout << "Schedule: " << endl;
+    for(int i = 0; i < 8; i++){ //prints teacher's schedule
+        cout << "-----------------------------" << endl;
+        cout << "Block " << (i+1) << endl;
+        cout << schedule[i] << endl;
+    }
+    cout << endl;
+    return "";
 }
