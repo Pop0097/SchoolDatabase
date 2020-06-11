@@ -23,7 +23,7 @@ Student::Student(string first, string last, string add, string g, string id) : P
     }
     else{
         grade = 0;
-        cout << "The inputted grade was not valid. The value must be a number between 1 and 12." << endl;
+        cout << "Invalid grade. The value must be a number between 1 and 12." << endl;
     }
     numLates = 0;
     numAbsences = 0;
@@ -32,7 +32,6 @@ Student::Student(string first, string last, string add, string g, string id) : P
         studentId = id;
     }
     else{
-        cout << "Not a valid Id, please set a new id using \"obejctName\".setStudentId(\"studentID\")" << endl;
         studentId = "Default Student ID";
     }
     for(int i = 0; i < 8; i++){
@@ -65,7 +64,7 @@ void Student::setGrade(string n){
         grade = g;
     }
     else{
-        cout << "The inputted grade was not valid. The value must be a number between 1 and 12." << endl;
+        cout << "Invalid grade. The value must be a number between 1 and 12." << endl;
     }
 }
 
@@ -75,13 +74,13 @@ void Student::setStudentId(string id){ //this needs the isValid method
         studentId = id;
     }
     else{
-        cout << "Not a valid Student ID \n" << endl;
+        cout << "Not a valid Student ID." << endl;
+        cout << "Student IDs use the following format: begins with a \"S\" followed by exactly 9 digits." << endl;
     }
 }
 
 void Student::addLate(){ //this is added via the Teacher class
     numLates++;
-    //cout << "done" << endl;
 }
 
 void Student::addAbsence() { //this is added via the Teacher class

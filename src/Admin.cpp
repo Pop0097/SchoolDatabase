@@ -49,7 +49,6 @@ string Admin::adminEncrypt(string password, string key){ //method encrypts the p
     for(int i = 0; i < password.size(); ++i){
         password[i] ^= key[i];
     }
-    //cout << password;
     return password;
 }
 

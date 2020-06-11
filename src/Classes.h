@@ -183,7 +183,6 @@ public:
     void removeStudent(int, int);
     void addStudent(Student&);
     /* Display */
-    void displayTeacher();
     void displayStudents();
     string toString();
 };

@@ -37,7 +37,6 @@ Teacher::Teacher(string f, string l, string a, string t, string id) : Person::Pe
     if (valid) {
         employeeId = id;
     } else {
-        cout << "Not a valid Id, please set a new id using \"obejctName\".setStudentId(\"studentID\")" << endl;
         employeeId = "Default Employee ID";
     }
     t_username = "d_uname";
@@ -58,7 +57,6 @@ Teacher::Teacher(string f, string l, string a, string t, string id, string u, st
     if (valid) {
         employeeId = id;
     } else {
-        cout << "Not a valid Id, please set a new id using \"obejctName\".setStudentId(\"studentID\")" << endl;
         employeeId = "Default Employee ID";
     }
     t_username = u;
@@ -96,7 +94,8 @@ void Teacher::setEmployeeId(string id) {
         employeeId = id;
     }
     else{
-        cout << "Not a valid Employee ID \n" << endl;
+        cout << "Not a valid Employee ID." << endl;
+        cout << "Teacher IDs use the following format: begins with a \"C\" followed by exactly 5 digits." << endl;
     }
 }
 
@@ -133,7 +132,6 @@ string Teacher::teacherEncrypt(string password, string key){ //method encrypts t
     for(int i = 0; i < password.size(); ++i){
         password[i] ^= key[i];
     }
-    //cout << password;
     return password;
 }
 

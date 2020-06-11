@@ -24,7 +24,11 @@ Course::Course(int block, string sub, string code, int room){
         students[i] = new Student();
     }
     instructor = new Teacher();
-    courseBlock = block;
+    if(block >= 1 && block <= 8){
+        courseBlock = block;
+    } else {
+        courseBlock = 1;
+    }
     subject = sub;
     courseCode = code;
     roomNumber = room;
@@ -37,7 +41,11 @@ Course::Course(int block, string sub, string code, int room, Teacher& teach){
         students[i] = new Student();
     }
     instructor = &teach;
-    courseBlock = block;
+    if(block >= 1 && block <= 8){
+        courseBlock = block;
+    } else {
+        courseBlock = 1;
+    }
     subject = sub;
     courseCode = code;
     roomNumber = room;
@@ -58,7 +66,7 @@ int Course::getCourseBlock(){
 }
 
 string Course::getCourseTeacher(){
-    cout << instructor->getFirstName() << " " << instructor->getLastName();
+    cout << instructor->getFirstName() << " " << instructor->getLastName() << ".";
     return "";
 }
 
@@ -114,13 +122,9 @@ void Course::addStudent(Student& stu){
     }
 }
 
-void Course::displayTeacher() {
-    cout << instructor->getFirstName() << " " << instructor->getLastName();
-}
-
 void Course::displayStudents(){ //displays all students in the course
     for(int i = 0; i < studentNumber; i++){
-        cout << (i+1) << ". " << students[i]->getFirstName() << " " << students[i]->getLastName()  << endl;
+        cout << (i+1) << ". " << students[i]->getFirstName() << " " << students[i]->getLastName() << "." << endl;
     }
 }
 
