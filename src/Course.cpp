@@ -103,7 +103,7 @@ void Course::removeStudent(int stu, int block){
     for(int i = 0; i < studentNumber; i++){ //re-initializes the elements in the students array, excluding the removed student
         if(i < stu){
             students[i] = tempArray[i];
-        } else if(i >= stu){
+        } else {
             students[i] = tempArray[i+1];
         }
     }
